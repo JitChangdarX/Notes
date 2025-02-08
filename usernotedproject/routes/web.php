@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+use App\Http\Controllers\SignupController;
+
+Route::get('/signup', [SignupController::class, 'signup']);
+Route::post('/signupaction', [SignupController::class, 'signupactions'])->name('signupaction');
