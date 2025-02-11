@@ -18,6 +18,8 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\SignupController;
+use App\Http\Controllers\dashbordcontroller;
 
-Route::get('/signup', [SignupController::class, 'signup']);
+Route::get('/signup', [SignupController::class, 'signup'])->name('signup');
 Route::post('/signupaction', [SignupController::class, 'signupactions'])->name('signupaction');
+Route::get('/dashbord',[dashbordcontroller::class, 'dashbordaction']);

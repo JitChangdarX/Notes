@@ -64,3 +64,10 @@ button {
     text-align: center;
     color: black;
 }
+.alert {
+    display: block !important;
+}
+.invalid-feedback {
+    display: block !important;
+    color: red !important;
+}

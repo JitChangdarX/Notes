@@ -7,11 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="{{ asset('asset/css/signup.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body style="background-color: black;">
+   
+
     <div class="container mt-5 ">
         <div class="card">
             <div class="card-header">
@@ -28,13 +30,22 @@
                         <div class="row">
                             <div class="col">
                                 <label for="">name</label>
-                                <input type="text" class="form-control" id="name" placeholder="enter your name"
-                                    required autocomplete="off">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    id="name" name="name" value="{{ old('name') }}"
+                                    placeholder="Enter your name"  autocomplete="off">
+                                @error('name')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+
                             </div>
                             <div class="col">
                                 <label for="">email</label>
-                                <input type="email" class="form-control" id="email" placeholder="enter your email"
-                                    required autocomplete="off">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    id="email" name="email" placeholder="enter your email" value="{{ old('email') }}"
+                                    autocomplete="off">
+                                @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -42,13 +53,22 @@
                         <div class="row">
                             <div class="col">
                                 <label for="">password</label>
-                                <input type="password" class="form-control" id="password"
-                                    placeholder="enter your password" required autocomplete="off">
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" placeholder="enter your password" name="password"
+                                    autocomplete="off">
+                                @error('password')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col">
                                 <label for="">confirm password</label>
-                                <input type="password" class="form-control" id="password"
-                                    placeholder="confirm your password" required autocomplete="off">
+                                <input type="password"
+                                    class="form-control @error('confirmpassword') is-invalid @enderror" id="password"
+                                    placeholder="confirm your password" name="confirmpassword"
+                                    autocomplete="off">
+                                @error('confirmpassword')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
