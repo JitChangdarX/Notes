@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>sgnup api</title>
     <link rel="stylesheet" href="{{ asset('asset/css/signup.css') }}">
+    <script src="{{asset('asset/js/signup.js')}}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 <body style="background-color: black;">
-   
+
 
     <div class="container mt-5 ">
         <div class="card">
@@ -32,9 +33,9 @@
                                 <label for="">name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
                                     id="name" name="name" value="{{ old('name') }}"
-                                    placeholder="Enter your name"  autocomplete="off">
+                                    placeholder="Enter your name" autocomplete="off">
                                 @error('name')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
 
                             </div>
@@ -44,7 +45,7 @@
                                     id="email" name="email" placeholder="enter your email" value="{{ old('email') }}"
                                     autocomplete="off">
                                 @error('email')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -57,7 +58,7 @@
                                     id="password" placeholder="enter your password" name="password"
                                     autocomplete="off">
                                 @error('password')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col">
@@ -67,17 +68,17 @@
                                     placeholder="confirm your password" name="confirmpassword"
                                     autocomplete="off">
                                 @error('confirmpassword')
-                                    <div class="alert alert-danger">{{ $message }}</div>
+                                <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                     </div>
                     {{-- show password --}}
-                    <div class="form-group" class="text-align-center">
+                    <div class="form-group" style="text-align: center;" class="text-align-center">
                         <div class="row">
                             <div class="col">
+                                <input type="checkbox" id="showPassword" onclick="show()">
                                 <label for="">show password</label>
-                                <input type="checkbox" id="showPassword">
                             </div>
                         </div>
                     </div>

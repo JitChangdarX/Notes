@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class dashbordcontroller extends Controller
 {
-   public function dashbordaction()
+    public function dashbordaction()
 
-   {
-    return view('dashbord')
-   }
+    {
+        return view('dashbord');
+    }
 }

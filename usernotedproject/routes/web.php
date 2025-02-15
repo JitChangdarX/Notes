@@ -19,7 +19,15 @@ Route::get('/', function () {
 
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\dashbordcontroller;
+use App\Http\Controllers\logincontroller;
 
-Route::get('/signup', [SignupController::class, 'signup'])->name('signup');
-Route::post('/signupaction', [SignupController::class, 'signupactions'])->name('signupaction');
-Route::get('/dashbord',[dashbordcontroller::class, 'dashbordaction']);
+Route::controller(SignupController::class)->group(function () {
+    Route::get('/signup', 'signup')->name('signup');
+    Route::post('/signupaction', 'signupactions')->name('signupaction');
+});
+Route::controller(logincontroller::class)->group(function () {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/loginaction', 'loginactions')->name('loginaction');
+});
+
+Route::get('/dashbord', [dashbordcontroller::class, 'dashbordaction'])->middleware('auth')->name('dashbord');
