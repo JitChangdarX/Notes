@@ -28,7 +28,10 @@ button {
 a {
     text-decoration: none;
 }
-
+.login__icon
+{
+    cursor: pointer;
+}
 img {
     display: block;
     max-width: 100%;
@@ -177,3 +180,4 @@ img {
         margin-bottom: 2rem;
     }
 }
+

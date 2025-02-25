@@ -9,7 +9,8 @@ class signup extends Model
 {
     use HasFactory;
 
-    protected $table = 'users';
+    protected $table = 'signup_account';
+    protected $fillable = ['name', 'email', 'password', 'profile_photo'];
     // public $timestamps = false;
 
 }

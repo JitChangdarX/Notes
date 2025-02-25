@@ -30,4 +30,6 @@ Route::controller(logincontroller::class)->group(function () {
     Route::post('/loginaction', 'loginactions')->name('loginaction');
 });
 
-Route::get('/dashbord', [dashbordcontroller::class, 'dashbordaction'])->middleware('auth')->name('dashbord');
+Route::controller(dashbordcontroller::class)->group(function () {
+    Route::get('/dashbord', 'dashbordaction')->name('dashbord');
+});

@@ -25,7 +25,7 @@
                 <h2 class="signup-title">Create Your Account</h2>
             </div>
             <div class="card-body">
-                <form action="{{ route('signupaction') }}" method="POST">
+                <form action="{{ route('signupaction') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -64,7 +64,7 @@
                             <div class="col">
                                 <label for="">confirm password</label>
                                 <input type="password"
-                                    class="form-control @error('confirmpassword') is-invalid @enderror" id="password"
+                                    class="form-control @error('confirmpassword') is-invalid @enderror" id="passwords"
                                     placeholder="confirm your password" name="confirmpassword"
                                     autocomplete="off">
                                 @error('confirmpassword')
@@ -73,6 +73,13 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- image upload --}}
+
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control"name="profile_photo[]"  id="inputGroupFile02" multiple required>
+                      </div>
+                      
                     {{-- show password --}}
                     <div class="form-group" style="text-align: center;" class="text-align-center">
                         <div class="row">
