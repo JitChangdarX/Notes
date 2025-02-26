@@ -20,6 +20,7 @@ Route::get('/', function () {
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\dashbordcontroller;
 use App\Http\Controllers\logincontroller;
+use App\Http\Controllers\forgetcontroller;
 
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
@@ -33,3 +34,5 @@ Route::controller(logincontroller::class)->group(function () {
 Route::controller(dashbordcontroller::class)->group(function () {
     Route::get('/dashbord', 'dashbordaction')->name('dashbord');
 });
+
+Route::get('/forget_password', [forgetcontroller::class, 'forgetpassword'])->name('forgetpassword');
