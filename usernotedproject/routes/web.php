@@ -18,9 +18,10 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\SignupController;
-use App\Http\Controllers\dashbordcontroller;
 use App\Http\Controllers\logincontroller;
 use App\Http\Controllers\forgetcontroller;
+use App\Http\Controllers\dashbordcontroller;
+use App\Http\Controllers\logoutcontroller;
 
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
@@ -28,11 +29,20 @@ Route::controller(SignupController::class)->group(function () {
 });
 Route::controller(logincontroller::class)->group(function () {
     Route::get('/login', 'login')->name('login');
-    Route::post('/loginaction', 'loginactions')->name('loginaction');
+    Route::post('/loginaction', [LoginController::class, 'loginactions'])->name('loginaction');
+    // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::controller(dashbordcontroller::class)->group(function () {
-    Route::get('/dashbord', 'dashbordaction')->name('dashbord');
+    Route::get('/dashbord/{id}', 'dashbordaction')->name('dashbord')->middleware('authCheck');
 });
 
-Route::get('/forget_password', [forgetcontroller::class, 'forgetpassword'])->name('forgetpassword');
+
+// for email
+Route::get('/forget_email', [forgetcontroller::class, 'forgetemail'])->name('forget_email');
+
+
+Route::controller(logoutcontroller::class)->group(function ()
+{
+    Route::get('/logout', 'logout')->name('logout');
+});

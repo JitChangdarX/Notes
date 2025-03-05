@@ -7,86 +7,111 @@
     <title>dashbord</title>
     <link rel="stylesheet" href="{{ asset('asset/css/dashbord.css') }}">
     <script src="{{ asset('asset/js/dashbord.js') }}"></script>
-<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
 
 <body>
 
-    
+
     {{-- // create a logo logout my profile my notes --}}
     {{-- check screenshoet --}}
     {{-- create light and dark theme --}}
 
     {{-- create a nav bar --}}
+
+    {{-- @php
+        use App\Models\SignupAccount; // Correct model name
+
+        $users = SignupAccount::all(); // Fetch all rows from `signup_account` table
+
+        foreach ($users as $user) {
+            echo $user->name; // Display column values
+        }
+    @endphp --}}
+
+    @php
+        $user = DB::table('signup_account')->where('id', session('user_id'))->first();
+        $profilePhotos = json_decode($user->profile_photo, true);
+        $profilePhoto = is_array($profilePhotos) ? $profilePhotos[0] : $profilePhotos;
+    @endphp
+
+    @if ($user)
+        <p>User ID: {{ $user->id }}</p>
+        {{-- <p>User Name: {{ $user->name }}</p> --}}
+        <p>Email: {{ $user->email }}</p>
+    @endif
+    
+        {{-- @if ($profilePhoto)
+            <img src="{{ asset($profilePhoto) }}" alt="Profile Image" width="100">
+        @else
+            <p>No profile image available</p>
+        @endif 
+     @else
+        <p>User not found.</p>
+    @endif --}}
+
+
+
+
+
     <div class="header">
         <div class="logo-container">
             <div class="logo">
-                <a href="{{ route('dashbord') }}">
+                <a href="{{ route('dashbord', ['id' => session('user_id')]) }}">
                     <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" alt="Logo">
-                    
-                 
+
+
                 </a>
                 <h1>My Notes</h1>
-                <div class="profile-dropdown">
-                    <div onclick="toggle()" class="profile-dropdown-btn">
-                      <div class="profile-img">
-                        <i class="fa-solid fa-circle"></i>
-                      </div>
-            
-                      <span>Profile
-                        <i class="fa-solid fa-angle-down"></i>
-                      </span>
+
+
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <img src="{{ asset($profilePhoto) }}" class="profile-image" alt="Profile">
+                        <span class="profile-name">{{ $user->name }}</span>
+                        <span class="dropdown-icon">▼</span>
                     </div>
-            
-                    <ul class="profile-dropdown-list">
-                      <li class="profile-dropdown-list-item">
-                        <a href="#">
-                            <i class="fa-solid fa-circle-user"></i>
-                          Edit Profile
-                        </a>
-                      </li>
-            
-                      <li class="profile-dropdown-list-item">
-                        <a href="#">
-                          <i class="fa-regular fa-envelope"></i>
-                          Inbox
-                        </a>
-                      </li>
-            
-                      <li class="profile-dropdown-list-item">
-                        <a href="#">
-                          <i class="fa-solid fa-chart-line"></i>
-                          Analytics
-                        </a>
-                      </li>
-            
-                      <li class="profile-dropdown-list-item">
-                        <a href="#">
-                          <i class="fa-solid fa-sliders"></i>
-                          Settings
-                        </a>
-                      </li>
-            
-                      <li class="profile-dropdown-list-item">
-                        <a href="#">
-                          <i class="fa-regular fa-circle-question"></i>
-                          Help & Support
-                        </a>
-                      </li>
-                      <hr />
-            
-                      <li class="profile-dropdown-list-item">
-                        <a href="#">
-                          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                          Log out
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-            
+
+                    <div class="profile-dropdown">
+                        <div class="dropdown-item">Settings</div>
+                        <div class="dropdown-item delete-btn">Delete Chat History</div>
+                    </div>
+                </div>
+                <script>
+                    const profileHeader = document.querySelector('.profile-header');
+                    const profileDropdown = document.querySelector('.profile-dropdown');
+
+                    profileHeader.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        profileDropdown.classList.toggle('active');
+                        profileHeader.classList.toggle('active');
+                    });
+
+                    document.addEventListener('click', () => {
+                        profileDropdown.classList.remove('active');
+                        profileHeader.classList.remove('active');
+                    });
+
+                    document.querySelector('.delete-btn').addEventListener('click', () => {
+                        const confirmDelete = confirm('Are you sure you want to delete all chat history?');
+                        if (confirmDelete) {
+                            document.querySelectorAll('.chat-item').forEach(item => item.remove());
+                            profileDropdown.classList.remove('active');
+                        }
+                    });
+
+                    document.querySelectorAll('.dropdown-item').forEach(item => {
+                        if (!item.classList.contains('delete-btn')) {
+                            item.addEventListener('click', () => {
+                                alert('Settings clicked');
+                                profileDropdown.classList.remove('active');
+                            });
+                        }
+                    });
+                </script>
                 <div id="showdiv"></div>
             </div>
         </div>

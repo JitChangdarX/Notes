@@ -5,54 +5,71 @@ h2 {
 
 body {
     background-color: black;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('https://source.unsplash.com/1600x900/?nature,landscape') no-repeat center center/cover;
+    transition: filter 0.5s ease-in-out;
 }
 
-.col {
-    margin: 2rem;
-}
-
-.card {
-    margin-top: 2rem;
-    width: 50rem;
-}
-
+/* Centering container */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* height: 100vh; */
+    padding: 1rem;
 }
 
+/* Adjusting card size */
+.card {
+    margin-top: 2rem;
+    width: 50rem;
+    max-width: 90%; /* Makes it responsive */
+}
+
+/* Column margin */
+.col {
+    margin: 2rem;
+}
+
+/* Button styling */
 button {
     justify-content: center;
     display: block;
     margin-top: 2rem;
     text-align: center;
+    padding: 10px 20px;
+    font-size: 1rem;
 }
 
+/* Signup title */
 .signup-title {
     text-align: center;
     color: black;
     margin-top: 10px;
-    /* Adjust spacing between logo and title */
     font-size: 1.8rem;
 }
 
+/* Logo container */
 .logo-container {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     background: #007bff;
     margin: -50px auto 10px;
-    /* Adjust spacing */
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    cursor: pointer;
 }
 
+/* Logo image */
 .logo-image {
     width: 120px;
     height: 120px;
@@ -60,14 +77,105 @@ button {
     object-fit: cover;
 }
 
+/* Show password text */
 .show-password {
     text-align: center;
     color: black;
 }
+
+/* Alerts and validation messages */
 .alert {
     display: block !important;
 }
+
 .invalid-feedback {
     display: block !important;
     color: red !important;
+}
+
+/* ---------- MEDIA QUERIES ---------- */
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+    .card {
+        width: 80%;
+        max-width: 600px;
+    }
+    
+    .logo-container {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .logo-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .signup-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .card {
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    .logo-container {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .logo-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .signup-title {
+        font-size: 1.3rem;
+    }
+    
+    button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+.logo-container {
+    .container {
+        width: 400px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: filter 0.3s ease;
+    }
+
+    .logo-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .logo-image {
+        width: 120px;
+        border-radius: 67px;
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .blurred {
+        filter: blur(5px);
+    }
+
+    .focused {
+        transform: scale(1.2);
+        z-index: 10;
+        filter: blur(0);
+    }
 }

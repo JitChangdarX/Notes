@@ -14,3 +14,4 @@ if (password2.type === "password") {
     password2.type = "password";
 }
 }
+

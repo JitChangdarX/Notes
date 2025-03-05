@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Signup;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,9 @@ class LoginController extends Controller
         }
 
         $user = Signup::where('email', $request->email)->first();
-
+        // fetch the use id
+        Session::put('user_id', $user->id);
+        session::put('name', $user->name);
         if (!$user) {
             return redirect()->back()->withErrors(['email' => 'User not found']);
         }
@@ -38,9 +41,10 @@ class LoginController extends Controller
             return redirect()->back()->withErrors(['password' => 'Incorrect password']);
         }
 
+
         // Login the user
     
-
-        return redirect()->route('dashbord'); // Ensure this route exists
+        return redirect()->route('dashbord', ['id' => $user->id]); // Ensure this route exists
     }
+   
 }

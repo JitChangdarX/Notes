@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class forgetcontroller extends Controller
 {
-   public function forgetpassword(){
-    return view('forgetpassword');
+   public function forgetemail(){
+    return view('email');
    }
 } 

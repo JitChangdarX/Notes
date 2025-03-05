@@ -24,10 +24,16 @@
                 <div class="login__box">
                     <input type="email" placeholder="Email ID" name="email" required class="login__input" autocomplete="off">
                     <i class="ri-mail-fill"></i>
+                    @error('email')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="login__box">
                     <input type="password" placeholder="Password" name="password" required class="login__input" id="password" autocomplete="off">
                     <i id="eyeIcon" class="ri-eye-off-line" onclick="myFunction()" style="cursor: pointer"></i>
+                    @error('password')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <div class="login__check">
@@ -36,7 +42,7 @@
                     <label for="user-check" class="login__check-label">Remember me</label>
                 </div>
 
-                <a href="#" class="login__forgot">Forgot Password?</a>
+                <a href="{{route('forget_email')}}" class="login__forgot">Forgot Password?</a>
             </div>
 
             <button type="submit" class="login__button">Login</button>

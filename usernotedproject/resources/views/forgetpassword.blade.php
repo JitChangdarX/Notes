@@ -6,10 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
 </head>
 <body>
-    <form action="{{route('forgetpassword')}}" method="post">
+    <form action="{{route('forgetpasswordaction')}}" method="post">
+		@csrf
      	<h2>Change Password</h2>
-
-
      	<label>Old Password</label>
        
      	<input type="password"  name="op" id="password"  placeholder="Old Password" autocomplete="off">
@@ -20,7 +19,7 @@
      	<label>Confirm New Password</label>
 		<input type="password"  name="c_np" id="confirm_password"  placeholder="Confirm New Password" autocomplete="off">
      	<br>
-     	<button type="submit">CHANGE</button>
+     	<button type="submit">CHANGE</button>  
      </form>
 </body>
 </html>
