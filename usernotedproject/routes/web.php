@@ -46,3 +46,5 @@ Route::controller(logoutcontroller::class)->group(function ()
 {
     Route::get('/logout', 'logout')->name('logout');
 });
+
+Route::get('/hiden_div',[SignupController::class,'hiden_div'])->name('hiden_div');

@@ -15,6 +15,11 @@ class SignupController extends Controller
         return view('signup');
     }
 
+    public function hiden_div()
+    {
+        return view('hidden_div');
+    }
+
     public function signupactions(Request $request)
     {
         // Validation Rules
