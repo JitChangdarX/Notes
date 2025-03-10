@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="view-transition" content="same-origin">
     <title>dashbord</title>
     <link rel="stylesheet" href="{{ asset('asset/css/dashbord.css') }}">
     <script src="{{ asset('asset/js/dashbord.js') }}"></script>
@@ -33,24 +34,23 @@
         })
 
         function toggleSettings() {
-    const panel = document.getElementById('settingsPanel');
-    const overlay = document.querySelector('.backdrop-overlay');
+            const panel = document.getElementById('settingsPanel');
+            const overlay = document.querySelector('.backdrop-overlay');
 
-    panel.classList.toggle('active');
-    overlay.classList.toggle('active');
-}
+            panel.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
 
-document.addEventListener('click', function(event) {
-    const panel = document.getElementById('settingsPanel');
-    const button = document.querySelector('.settings-btn');
-    const overlay = document.querySelector('.backdrop-overlay');
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('settingsPanel');
+            const button = document.querySelector('.settings-btn');
+            const overlay = document.querySelector('.backdrop-overlay');
 
-    if (!panel.contains(event.target) && event.target !== button) {
-        panel.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-});
-
+            if (!panel.contains(event.target) && event.target !== button) {
+                panel.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
     </script>
 
 </head>
@@ -58,21 +58,6 @@ document.addEventListener('click', function(event) {
 <body>
 
 
-    {{-- // create a logo logout my profile my notes --}}
-    {{-- check screenshoet --}}
-    {{-- create light and dark theme --}}
-
-    {{-- create a nav bar --}}
-
-    {{-- @php
-        use App\Models\SignupAccount; // Correct model name
-
-        $users = SignupAccount::all(); // Fetch all rows from `signup_account` table
-
-        foreach ($users as $user) {
-            echo $user->name; // Display column values
-        }
-    @endphp --}}
 
     @php
         $user = DB::table('signup_account')->where('id', session('user_id'))->first();
@@ -80,13 +65,46 @@ document.addEventListener('click', function(event) {
         $profilePhoto = is_array($profilePhotos) ? $profilePhotos[0] : $profilePhotos;
     @endphp
 
-    @if ($user)
+    {{-- @if ($user)
         <p>User ID: {{ $user->id }}</p>
-        {{-- <p>User Name: {{ $user->name }}</p> --}}
+        <p>User Name: {{ $user->name }}</p>
         <p>Email: {{ $user->email }}</p>
-    @endif
+    @endif --}}
+    <button class="toggle-btn" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{{ url('/signup') }}">🏠 Home</a></li>
+            <li><a href="#about">👤 About</a></li>
+            <li><a href="#services">🛠 Services</a></li>
+            <li><a href="#portfolio">📁 Portfolio</a></li>
+            <li data-toggle="modal" data-target="#exampleModal">
+                <a href="#contact">📧 Contact</a>
+            </li>
+        </ul>
+    </nav>
 
+    <!-- Backdrop -->
+    <div class="backdrop" id="backdrop" onclick="toggleMenu()"></div>
+
+    <!-- Main Content -->
+    {{-- <div class="content" id="mainContent">
+        <h1>Modern Animated Sidebar</h1>
+        <p>Experience smooth animations and modern interactions!</p>
+    </div> --}}
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("active");
+            document.querySelector(".toggle-btn").classList.toggle("active");
+            document.getElementById("mainContent").classList.toggle("active");
+            document.getElementById("backdrop").classList.toggle("active");
+        }
+    </script>
 
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -124,88 +142,99 @@ document.addEventListener('click', function(event) {
 
 
     <div class="header">
-        <div class="logo-container">
-            <div class="logo">
-                <a href="{{ route('dashbord', ['id' => session('user_id')]) }}">
-                    <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" alt="Logo">
+        {{-- <div class="logo-container">
+            <a href="{{ route('dashbord', ['id' => session('user_id')]) }}" class="logo-link">
+                <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" alt="Logo"
+                    class="logo-image">
+            </a>
+            <h1 class="logo-title">My Notes</h1>
+        </div> --}}
+
+        <a href="#" class="nav-link">
+            {{-- <img src="keep-icon.png" alt="Keep Icon" style="width: 20px;"> --}}
+            {{-- Keep --}}
+        </a>
+        
 
 
-                </a>
-                <h1>My Notes</h1>
 
 
-                <div class="profile-container">
-                    <div class="profile-header">
-                        <img src="{{ asset($profilePhoto) }}" class="profile-image" alt="Profile">
-                        <span class="profile-name">{{ $user->name }}</span>
-                        <span class="dropdown-icon">▼</span>
-                    </div>
+        <div class="profile-container">
+            <div class="profile-header">
+                <img src="{{ asset($profilePhoto) }}" class="profile-image" alt="Profile">
+                <span class="profile-name">{{ $user->name }}</span>
+                <span class="dropdown-icon">▼</span>
+            </div>
 
-                    <div class="profile-dropdown">
+            <div class="profile-dropdown">
 
-                        <div class="settings-btn" onclick="toggleSettings()">
-                            <i class="ri-settings-3-fill"></i>Settings
-                        </div>
-                        <div class="backdrop-overlay"></div>
-
-                        <div class="dropdown-item delete-btn">
-                            <i class="ri-delete-bin-5-line"></i>Delete Chat History
-                        </div>
-                        <div class="dropdown-item btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            <i class="fa-solid fa-envelope"></i> Contact Us
-                        </div>
-
-                        <div class="dropdown-item">
-                            <i class="ri-logout-circle-r-line"></i> Logout
-                        </div>
-                    </div>
+                <div class="settings-btn" onclick="toggleSettings()">
+                    <i class="ri-settings-3-fill"></i>Settings
                 </div>
-                <script>
-                    const profileHeader = document.querySelector('.profile-header');
-                    const profileDropdown = document.querySelector('.profile-dropdown');
+                <div class="backdrop-overlay"></div>
+                <div class="dropdown-item delete-btn">
+                    <i class="ri-delete-bin-5-line"></i>Delete Chat History
+                </div>
 
-                    profileHeader.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        profileDropdown.classList.toggle('active');
-                        profileHeader.classList.toggle('active');
-                    });
 
-                    document.addEventListener('click', () => {
-                        profileDropdown.classList.remove('active');
-                        profileHeader.classList.remove('active');
-                    });
+                <a href="{{ route('edit_profile', ['id' => session('user_id')]) }}"
+                    class="dropdown-item btn btn-primary">
+                    <i class="ri-pencil-line"></i> Edit Profile
+                </a>
 
-                    document.querySelector('.delete-btn').addEventListener('click', () => {
-                        const confirmDelete = confirm('Are you sure you want to delete all chat history?');
-                        if (confirmDelete) {
-                            document.querySelectorAll('.chat-item').forEach(item => item.remove());
-                            profileDropdown.classList.remove('active');
-                        }
-                    });
 
-                    document.querySelectorAll('.dropdown-item').forEach(item => {
-                        if (!item.classList.contains('delete-btn')) {
-                            item.addEventListener('click', () => {
-                                // alert('Settings clicked');
-                                profileDropdown.classList.remove('active');
-                            });
-                        }
-                    });
-                </script>
-                <div id="showdiv"></div>
+                <a href="{{ route('logout') }}" class="dropdown-item">
+                    <i class="ri-logout-circle-r-line"></i> Logout
+                </a>
             </div>
         </div>
+        <script>
+            const profileHeader = document.querySelector('.profile-header');
+            const profileDropdown = document.querySelector('.profile-dropdown');
 
-        <div class="searchbox">
-            <form action="" method="get" class="search-box">
+            profileHeader.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('active');
+                profileHeader.classList.toggle('active');
+            });
+
+            document.addEventListener('click', () => {
+                profileDropdown.classList.remove('active');
+                profileHeader.classList.remove('active');
+            });
+
+            document.querySelector('.delete-btn').addEventListener('click', () => {
+                const confirmDelete = confirm('Are you sure you want to delete all chat history?');
+                if (confirmDelete) {
+                    document.querySelectorAll('.chat-item').forEach(item => item.remove());
+                    profileDropdown.classList.remove('active');
+                }
+            });
+
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                if (!item.classList.contains('delete-btn')) {
+                    item.addEventListener('click', () => {
+                        // alert('Settings clicked');
+                        profileDropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+        <div id="showdiv"></div>
+
+
+        {{-- <div class="searchbox">
+            <form action="" method="POST" class="search-box">
+                @csrf
                 <input type="text" placeholder="Search...">
             </form>
-        </div>
+        </div> --}}
     </div>
 
     {{-- setting --}}
 
     <div class="settings-panel" id="settingsPanel">
+        <i class="ri-close-fill" onclick="toggleSettings()" id="close"></i>
         <h2>Settings</h2>
         <div class="settings-options">
             <button><i class="ri-settings-4-fill"></i> General</button>
@@ -213,7 +242,6 @@ document.addEventListener('click', function(event) {
             <button><i class="ri-apps-2-line"></i> Connected Apps</button>
             <button><i class="ri-lock-password-fill"></i> Privacy</button>
             <button><i class="ri-notification-3-fill"></i> Notifications</button>
-            <button><i class="ri-logout-box-r-line"></i> Logout</button>
         </div>
         <button class="close-btn" onclick="toggleSettings()">Close</button>
     </div>
@@ -223,34 +251,35 @@ document.addEventListener('click', function(event) {
     <div class="container">
         <div class="parent">
             <div class="div1">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
+                <input type="text" placeholder="Note 1">
+                <input type="text" placeholder="Note 2">
+                <input type="text" placeholder="Note 3">
+                <input type="text" placeholder="Note 4">
             </div>
-
 
             <div class="div2">
-                <input type="text" contenteditable="true">
-                <input type="text" class="custom-input" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
+                <input type="text" placeholder="Note 5">
+                <input type="text" class="custom-input" placeholder="Note 6">
+                <input type="text" placeholder="Note 7">
+                <input type="text" placeholder="Note 8">
             </div>
+
             <div class="div3">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
+                <input type="text" placeholder="Note 9">
+                <input type="text" placeholder="Note 10">
+                <input type="text" placeholder="Note 11">
+                <input type="text" placeholder="Note 12">
             </div>
 
             <div class="div4">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
-                <input type="text" contenteditable="true">
+                <input type="text" placeholder="Note 13">
+                <input type="text" placeholder="Note 14">
+                <input type="text" placeholder="Note 15">
+                <input type="text" placeholder="Note 16">
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

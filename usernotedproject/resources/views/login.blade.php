@@ -8,11 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
     <link rel="stylesheet" href="{{asset('asset/css/login.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="{{asset('asset/js/login.js')}}"></script>
     <title>Login form-Bedimcode</title>
 </head>
 
-<body>
+<body data-barba="wrapper">
+    <div class="overlay"></div>
+    <main data-barba="container" data-barba-namespace="home">
     <div class="login">
         <img src="{{asset('asset/login-bg.png')}}" alt="image" class="login__bg">
 
@@ -46,12 +50,12 @@
             </div>
 
             <button type="submit" class="login__button">Login</button>
-
             <div class="login__register">
                 Don't have an account? <a href="{{route('signup')}}">Register</a>
             </div>
         </form>
     </div>
+    </main>
 </body>
 
 </html>

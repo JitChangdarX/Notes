@@ -1,18 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,6 +10,7 @@ use App\Http\Controllers\logincontroller;
 use App\Http\Controllers\forgetcontroller;
 use App\Http\Controllers\dashbordcontroller;
 use App\Http\Controllers\logoutcontroller;
+use App\Http\Controllers\editcontroller;
 
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
@@ -46,5 +35,8 @@ Route::controller(logoutcontroller::class)->group(function ()
 {
     Route::get('/logout', 'logout')->name('logout');
 });
-
+Route::controller(editcontroller::class)->group(function ()
+{
+    Route::get('/edit_profile/{id}', 'edit')->name('edit_profile');
+});
 Route::get('/hiden_div',[SignupController::class,'hiden_div'])->name('hiden_div');
