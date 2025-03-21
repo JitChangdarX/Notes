@@ -11,6 +11,7 @@ use App\Http\Controllers\forgetcontroller;
 use App\Http\Controllers\dashbordcontroller;
 use App\Http\Controllers\logoutcontroller;
 use App\Http\Controllers\editcontroller;
+use App\Http\Controllers\googlecontroller;
 
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
@@ -19,7 +20,6 @@ Route::controller(SignupController::class)->group(function () {
 Route::controller(logincontroller::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/loginaction', [LoginController::class, 'loginactions'])->name('loginaction');
-    // Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::controller(dashbordcontroller::class)->group(function () {
@@ -40,3 +40,8 @@ Route::controller(editcontroller::class)->group(function ()
     Route::get('/edit_profile/{id}', 'edit')->name('edit_profile');
 });
 Route::get('/hiden_div',[SignupController::class,'hiden_div'])->name('hiden_div');
+
+
+
+Route::get('/auth/google', [googlecontroller::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/google/callback', [googlecontroller::class, 'handleGoogleCallback']);

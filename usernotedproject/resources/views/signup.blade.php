@@ -10,10 +10,16 @@
     <script src="{{ asset('asset/js/signup.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
+        body {
+            background-image: "loader4.gif";
+        }
+    </style>
+
 </head>
 
 <body style="background-color: black;">
- 
+
 
     <div class="container mt-5 ">
         <div class="card">
@@ -106,16 +112,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <button class="btn btn-primary" type="submit">Sign Up</button>
-
+                    <div id="loader" style="display: none;">
+                        <div class="spinner"></div>
                     </div>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit" id="myButton">Sign Up</button>
+                    </div>
+
+                    <a href="{{ url('/auth/google') }}" class="btn btn-danger">
+                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" style="width: 20px; margin-right: 8px;">
+                        Sign up with Google
+                    </a>
+                    
+
                 </form>
             </div>
             </form>
         </div>
     </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const loader = document.getElementById('loader');
+            const button = document.getElementById('myButton');
+
+            form.addEventListener('submit', (e) => {
+                loader.style.display = 'flex';
+                button.disabled = true;
+            });
+        });
+    </script>
 
 </body>
 
