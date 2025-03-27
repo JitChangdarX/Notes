@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Signup;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use App\Models\Signup;
 
 class LoginController extends Controller
 {
@@ -17,34 +19,39 @@ class LoginController extends Controller
 
     public function loginactions(Request $request)
     {
-        $rules = 
-        [
+        Log::info('Login attempt for email: ' . $request->email);
+
+        $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
-        ];
+            'password' => 'required',
+            'g-recaptcha-response' => 'required'
+        ]);
 
-        $validator = Validator::make($request->all(), $rules);
+        // Verify Google reCAPTCHA
+        $recaptchaSecret = env('NOCAPTCHA_SECRET');
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => $recaptchaSecret,
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $request->ip()
+        ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        $recaptchaData = $response->json();
+        if (!$recaptchaData['success']) {
+            return redirect()->back()->withErrors(['captcha' => 'reCAPTCHA verification failed'])->withInput();
         }
 
-        $user = Signup::where('email', $request->email)->first();
-        // fetch the use id
+        // Fetch user manually from the database
+        $user = DB::table('signup_account')->where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        }
+
+        // Store user ID in session (if required)
         Session::put('user_id', $user->id);
-        session::put('name', $user->name);
-        if (!$user) {
-            return redirect()->back()->withErrors(['email' => 'User not found']);
-        }
-
-        if (!password_verify($request->password, $user->password)) {
-            return redirect()->back()->withErrors(['password' => 'Incorrect password']);
-        }
-
-
-        // Login the user
-    
-        return redirect()->route('dashbord', ['id' => $user->id]); // Ensure this route exists
+        $encryptedUserId = Crypt::encrypt($user->id);
+        echo $encryptedUserId;
+        // Redirect to dashboard with user ID
+        return redirect()->route('dashboard', ['id' => $user->id]);
     }
-   
 }

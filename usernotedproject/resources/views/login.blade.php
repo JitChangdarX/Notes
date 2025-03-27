@@ -7,10 +7,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css" crossorigin="">
     <link rel="stylesheet" href="{{ asset('asset/css/login.css') }}">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <title>Login - MyApp</title>
+
 </head>
 
 <body>
@@ -23,35 +23,48 @@
 
             <div class="login__inputs">
                 <div class="login__box">
-                    <input type="email" placeholder="Email ID" name="email" required class="login__input"
+                    <input type="email" placeholder="Email ID" id="email" name="email" class="login__input"
                         autocomplete="off">
                     <i class="ri-mail-fill"></i>
                     @error('email')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                        <div class="success-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="login__box">
-                    <input type="password" placeholder="Password" name="password" required class="login__input"
-                        id="password" autocomplete="off">
+                    <input type="password" placeholder="Password" name="password" class="login__input" id="password"
+                        autocomplete="off">
                     <i id="eyeIcon" class="ri-eye-off-line" onclick="togglePassword()" style="cursor: pointer"></i>
                     @error('password')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
+                <div class="mb-4">
+                    <div class="recaptcha-wrapper bg-light rounded-3 p-3 mb-2">
+                        <div class="d-flex justify-content-center">
+                            <div class="g-recaptcha" data-sitekey="{{ env('NOCAPTCHA_SITEKEY') }}"
+                                data-callback="recaptchaCallback" data-theme="light" data-size="normal">
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <div class="g-recaptcha" data-sitekey="{{ env('NOCAPTCHA_SITEKEY') }}"
-                        data-callback="recaptchaCallback"></div>
-
-
-                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                     @error('g-recaptcha-response')
-                        <div class="text-danger mt-2">{{ $message }}</div>
+                        <div class="recaptcha-error alert alert-danger d-flex align-items-center mt-2 py-2 px-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-exclamation-circle me-2" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                <path
+                                    d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+                            </svg>
+                            <span>{{ $message }}</span>
+                        </div>
                     @enderror
                 </div>
+
+
+
             </div>
 
             <div class="login__check">
@@ -62,7 +75,7 @@
                 <a href="{{ route('forget_email') }}" class="login__forgot">Forgot Password?</a>
             </div>
 
-            <button type="submit" class="login__button" id="submitBtn" disabled>Login</button>
+            <button type="submit" class="login__button" id="submitBtn">Login</button>
 
             <div class="login__register">
                 Don't have an account? <a href="{{ route('signup') }}">Register</a>
@@ -72,10 +85,6 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script>
-        function recaptchaCallback(response) {
-            document.getElementById("g-recaptcha-response").value = response;
-            document.getElementById("submitBtn").disabled = false;
-        }
 
         function togglePassword() {
             var passwordInput = document.getElementById("password");
@@ -96,11 +105,11 @@
             grecaptcha.reset();
         }
 
-        document.querySelector('.login__form').addEventListener('submit', function() {
-            if (!document.getElementById("g-recaptcha-response").value) {
-                alert("Please verify reCAPTCHA before submitting.");
-                resetRecaptcha();
-                return false;
+        document.querySelector('.login__form').addEventListener('submit', function(e) {
+            var formData = new FormData(this);
+            console.log("Form Data Before Submission:");
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ": " + pair[1]);
             }
         });
     </script>

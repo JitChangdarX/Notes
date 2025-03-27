@@ -218,17 +218,76 @@ img {
     100% { transform: rotate(360deg) translateX(40px) scale(1); opacity: 1; }
 }
 
-/* Your Existing Button Styles */
-/* .login__button {
-    background: #3498db;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-} */
-
 .login__button:hover {
     background: #2980b9;
+}
+.mb-3 {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+    padding: 25px; 
+    border-radius: 16px; 
+    border: 1px solid #dcdcdc;
+    max-width: 450px;
+    margin: 20px auto; 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease; 
+}
+
+
+.mb-3:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* reCAPTCHA container */
+.g-recaptcha {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    padding: 10px; /* Inner spacing */
+    background-color: #fff; /* Crisp white background */
+    border-radius: 10px; /* Match wrapper’s modern feel */
+    border: 1px solid #e6e6e6; /* Subtle inner border */
+}
+
+/* Style the reCAPTCHA iframe */
+.g-recaptcha iframe {
+    border-radius: 8px; /* Smooth corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06); /* Light shadow for depth */
+    transition: transform 0.2s ease; /* Subtle animation */
+}
+
+/* Add a slight scale effect on interaction */
+.g-recaptcha:hover iframe {
+    transform: scale(1.02); /* Tiny zoom on hover */
+}
+
+/* Hidden input remains hidden */
+#g-recaptcha-response {
+    display: none;
+}
+
+/* Professional error message styling */
+.text-danger {
+    font-size: 0.85rem; /* Compact yet readable */
+    font-weight: 600; /* Bold for emphasis */
+    color: #c62828; /* Richer red for professionalism */
+    text-align: center; /* Centered for symmetry */
+    margin-top: 12px; /* Balanced spacing */
+    padding: 5px 10px; /* Slight padding for a "label" feel */
+    background-color: #ffebee; /* Light red background */
+    border-radius: 4px; /* Rounded error box */
+    box-shadow: 0 1px 5px rgba(198, 40, 40, 0.1); /* Soft shadow */
+}
+
+.success-feedback {
+    color: red;
+    text-align: center
+}
+
+.invalid-feedback {
+    color: red;
+    text-align: center
+}
+.recaptcha-error {
+    color: red;
+    text-align: center
 }

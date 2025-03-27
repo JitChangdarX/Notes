@@ -60,10 +60,17 @@
 
 
     @php
+        use Illuminate\Support\Facades\DB;
+
         $user = DB::table('signup_account')->where('id', session('user_id'))->first();
-        $profilePhotos = json_decode($user->profile_photo, true);
-        $profilePhoto = is_array($profilePhotos) ? $profilePhotos[0] : $profilePhotos;
+
+        // Ensure $user is not null before accessing properties
+        $profilePhotos = $user ? json_decode($user->profile_photo, true) : null;
+
+        // Check if profilePhotos is a valid array and fetch the first image, else set default
+        $profilePhoto = is_array($profilePhotos) && !empty($profilePhotos) ? $profilePhotos[0] : 'default-profile.png';
     @endphp
+
 
     {{-- @if ($user)
         <p>User ID: {{ $user->id }}</p>
@@ -154,7 +161,7 @@
             {{-- <img src="keep-icon.png" alt="Keep Icon" style="width: 20px;"> --}}
             {{-- Keep --}}
         </a>
-        
+
 
 
 
@@ -175,10 +182,12 @@
                 <div class="dropdown-item delete-btn">
                     <i class="ri-delete-bin-5-line"></i>Delete Chat History
                 </div>
+                @php
+                    use Illuminate\Support\Facades\Crypt;
+                    $encryptedId = Crypt::encryptString($user->id);
+                @endphp
 
-
-                <a href="{{ route('edit_profile', ['id' => session('user_id')]) }}"
-                    class="dropdown-item btn btn-primary">
+                <a href="{{ route('edit_profile', ['id' => $encryptedId]) }}" class="dropdown-item btn btn-primary">
                     <i class="ri-pencil-line"></i> Edit Profile
                 </a>
 

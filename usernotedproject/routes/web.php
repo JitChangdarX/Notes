@@ -13,18 +13,15 @@ use App\Http\Controllers\logoutcontroller;
 use App\Http\Controllers\editcontroller;
 use App\Http\Controllers\googlecontroller;
 
+
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
     Route::post('/signupaction', 'signupactions')->name('signupaction');
 });
-Route::controller(logincontroller::class)->group(function () {
-    Route::get('/login', 'login')->name('login');
-    Route::post('/loginaction', [LoginController::class, 'loginactions'])->name('loginaction');
-});
 
-Route::controller(dashbordcontroller::class)->group(function () {
-    Route::get('/dashbord/{id}', 'dashbordaction')->name('dashbord')->middleware('authCheck');
-});
+Route::get('/login', [loginController::class, 'login']);
+Route::post('/loginaction', [loginController::class, 'loginactions'])->name('loginaction');
+Route::get('/dashboard/{id}', [dashbordcontroller::class, 'show'])->name('dashboard');
 
 
 // for email
@@ -45,3 +42,4 @@ Route::get('/hiden_div',[SignupController::class,'hiden_div'])->name('hiden_div'
 
 Route::get('/auth/google', [googlecontroller::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/google/callback', [googlecontroller::class, 'handleGoogleCallback']);
+Route::get('/logout', [googleController::class, 'logout'])->name('logout');

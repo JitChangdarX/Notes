@@ -6,13 +6,14 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthCheck
-{
-    public function handle(Request $request, Closure $next)
+{public function handle(Request $request, Closure $next)
     {
-        if (!Session::has('user_id')) {
-            return redirect('/login')->with('error', 'You must be logged in.');
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login first.');
         }
 
         return $next($request);
