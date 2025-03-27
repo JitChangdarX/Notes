@@ -19,9 +19,14 @@ Route::controller(SignupController::class)->group(function () {
     Route::post('/signupaction', 'signupactions')->name('signupaction');
 });
 
-Route::get('/login', [loginController::class, 'login']);
-Route::post('/loginaction', [loginController::class, 'loginactions'])->name('loginaction');
-Route::get('/dashboard/{id}', [dashbordcontroller::class, 'show'])->name('dashboard');
+
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/loginaction', 'loginactions')->name('loginaction');
+});
+Route::middleware(['authCheck'])->group(function () {
+    Route::get('/dashboard', [DashbordController::class, 'dashbordaction'])->name('dashboard');
+});
 
 
 // for email
