@@ -291,12 +291,12 @@
 {{-- -> <- handle for secure page i was commentout this part --}}
 
 {{-- final version --}}
-    {{-- <script>
+    <script>
         window.history.pushState(null, "", window.location.href);
         window.onpopstate = function () {
             window.history.pushState(null, "", window.location.href);
         };
-    </script> --}}
+    </script>
     
     
 

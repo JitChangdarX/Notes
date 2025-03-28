@@ -12,11 +12,18 @@ use App\Http\Controllers\dashbordcontroller;
 use App\Http\Controllers\logoutcontroller;
 use App\Http\Controllers\editcontroller;
 use App\Http\Controllers\googlecontroller;
+use App\Http\Controllers\CookieController;
 
 
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
     Route::post('/signupaction', 'signupactions')->name('signupaction');
+});
+
+Route::controller(CookieController::class)->group(function () {
+    Route::post('/accept-cookies', 'acceptCookies')->name('accept.cookies');
+    Route::get('/get-cookies', 'getCookies')->name('get.cookies');
+    Route::get('/delete-cookies', 'deleteCookies')->name('delete.cookies');
 });
 
 

@@ -85,7 +85,6 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script>
-
         function togglePassword() {
             var passwordInput = document.getElementById("password");
             var eyeIcon = document.getElementById("eyeIcon");
@@ -113,15 +112,15 @@
             }
         });
     </script>
-{{-- -> <- handle for secure page i was commentout this part --}}
+    {{-- -> <- handle for secure page i was commentout this part --}}
 
-{{-- final version --}}
-{{-- <script>
-    history.pushState(null, null, location.href);
-    window.onpopstate = function () {
-        history.go(1);
-    };
-</script> --}}
+    {{-- final version --}}
+    <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() {
+            history.go(1);
+        };
+    </script>
 
 </body>
 

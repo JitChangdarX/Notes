@@ -28,7 +28,8 @@ body {
 .card {
     margin-top: 2rem;
     width: 50rem;
-    max-width: 90%; /* Makes it responsive */
+    max-width: 90%;
+    /* Makes it responsive */
 }
 
 /* Column margin */
@@ -101,17 +102,17 @@ button {
         width: 80%;
         max-width: 600px;
     }
-    
+
     .logo-container {
         width: 80px;
         height: 80px;
     }
-    
+
     .logo-image {
         width: 100px;
         height: 100px;
     }
-    
+
     .signup-title {
         font-size: 1.5rem;
     }
@@ -123,21 +124,21 @@ button {
         width: 90%;
         max-width: 350px;
     }
-    
+
     .logo-container {
         width: 70px;
         height: 70px;
     }
-    
+
     .logo-image {
         width: 80px;
         height: 80px;
     }
-    
+
     .signup-title {
         font-size: 1.3rem;
     }
-    
+
     button {
         width: 100%;
         padding: 12px;
@@ -187,11 +188,13 @@ button {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4); /* Transparent background */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Transparent background */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;  /* Ensures loader appears above all content */
+    z-index: 9999;
+    /* Ensures loader appears above all content */
 }
 
 .spinner {
@@ -204,8 +207,13 @@ button {
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 #myButton {
@@ -252,18 +260,23 @@ button {
     transform: scale(1.05);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
+
 .text-center {
     text-align: center;
 }
 
 .google-signup {
-    display: inline-flex; /* Changed from flex to inline-flex for better centering */
-    align-items: center;
+    display: inline-flex;
+    /* Changed from flex to inline-flex for better centering */
+    align-items: left;
     justify-content: center;
     gap: 10px;
-    width: auto; /* Changed from 100% to auto for natural button width */
-    max-width: 100%; /* Ensures it doesn't overflow its container */
-    padding: 10px 20px; /* Added horizontal padding for better button proportions */
+    width: auto;
+    /* Changed from 100% to auto for natural button width */
+    max-width: 100%;
+    /* Ensures it doesn't overflow its container */
+    padding: 10px 20px;
+    /* Added horizontal padding for better button proportions */
     background: white;
     border: 1px solid #dadce0;
     border-radius: 5px;
@@ -278,13 +291,154 @@ button {
     text-decoration: none;
 }
 
-/* Optional: If these are related to a form around the button */
-.form-group label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
+
+
+/* Wrapper to position the banner */
+#cookie-banner-wrapper {
+    position: fixed;
+    top: 20px; /* Matches the image's top-right placement */
+    right: 20px;
+    z-index: 1000; /* Ensure it appears on top */
 }
 
-.form-group input {
-    border-radius: 5px;
+/* Cookie banner styles */
+#cookie-banner {
+    background-color: #f5f5f5; /* Light gray background */
+    border: 2px solid #e0e0e0; /* Soft border */
+    border-radius: 50px; /* Circular ends for pill shape */
+    padding: 15px 25px; /* Tighter padding */
+    max-width: 350px; /* Slightly narrower */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    display: flex; /* Flex for layout */
+    align-items: center; /* Vertically center content */
+    opacity: 0; /* For fade-in effect */
+    animation: fadeIn 0.5s ease forwards; /* Simple fade-in */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Close button styles */
+#close-button {
+    position: absolute;
+    top: -12px; /* Adjusted to sit outside the banner */
+    right: -12px; /* Adjusted to sit outside the banner */
+    width: 28px; /* Slightly larger for visibility */
+    height: 28px;
+    background-color: #ff6b6b; /* Bright red */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Circular button */
+    font-size: 18px; /* Larger × */
+    line-height: 28px; /* Center the × vertically */
+    text-align: center; /* Center the × horizontally */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#close-button:hover {
+    background-color: #e63939; /* Darker red */
+    transform: scale(1.1); /* Slight grow effect */
+}
+
+/* Cookie GIF styles */
+.cookie-image {
+    width: 50px; /* Adjusted to match the image size */
+    height: 50px;
+    border-radius: 50%; /* Circular GIF */
+    border: 3px solid #ffd700; /* Gold border */
+    margin-right: 15px; /* Space from content */
+    animation: pulse 1.5s infinite ease-in-out; /* Pulsing effect */
+}
+
+/* Pulse animation for GIF */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05); /* Slight grow */
+    }
+}
+
+/* Content container */
+.cookie-content {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Tighter gap */
+}
+
+/* Cookie icon styles */
+.cookie-icon {
+    font-size: 24px;
+    color: #6b4e31; /* Brown cookie color */
+}
+
+/* Paragraph text styles */
+#cookie-banner p {
+    font-size: 14px;
+    color: #444; /* Darker gray */
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Learn more link styles */
+.learn-more {
+    color: #00b4d8; /* Cyan blue */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.learn-more:hover {
+    color: #0077b6; /* Darker cyan */
+    text-decoration: underline;
+}
+
+/* Button group */
+.button-group {
+    display: flex;
+    gap: 8px; /* Smaller gap */
+    margin-left: 10px; /* Space from text */
+}
+
+/* Accept button styles */
+.accept-btn {
+    background-color: #00b4d8; /* Cyan blue */
+    color: white;
+    border: none;
+    padding: 8px 16px; /* Smaller padding */
+    border-radius: 20px; /* Rounded ends */
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.accept-btn:hover {
+    background-color: #0077b6; /* Darker cyan */
+    box-shadow: 0 2px 8px rgba(0, 180, 216, 0.3); /* Glow effect */
+}
+
+/* Decline button styles */
+.decline-btn {
+    background-color: transparent; /* No fill */
+    color: #666;
+    border: 2px solid #666; /* Gray border */
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.decline-btn:hover {
+    border-color: #333; /* Darker border */
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }

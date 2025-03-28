@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="{{ asset('asset/css/signup.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 </head>
 
 <body>
@@ -98,7 +101,24 @@
                             Sign up with Google
                         </a>
                     </div>
+
                 </form>
+
+                <!-- Cookie banner -->
+                <div id="cookie-banner-wrapper">
+                    <div id="cookie-banner" role="dialog" aria-label="Cookie Consent Banner">
+                        <img src="{{ asset('asset/cookie.gif') }}" alt="Cookie Image" class="cookie-image">
+                       
+                        <div class="cookie-content">
+                            <i class="fas fa-cookie-bite cookie-icon" aria-hidden="true"></i>
+                            <p>We use cookies to improve your experience. <a href="#" class="learn-more">Learn more</a>.</p>
+                            <div class="button-group">
+                                <button onclick="acceptCookies()" class="accept-btn">Accept</button>
+                                <button onclick="closeBanner()" class="decline-btn">Decline</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Loader -->
                 <div id="loader" style="display: none;">
@@ -106,8 +126,11 @@
                 </div>
             </div>
         </div>
+       
+    
     </div>
 
+    
     <!-- JavaScript -->
     <script>
         // Logo click effect
@@ -152,6 +175,53 @@
                 confirmPassword.type = "password";
             }
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/get-cookies') // Fetch the cookie from Laravel
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.user_accepted_cookies) {
+                        document.getElementById("cookie-banner").style.display = "block";
+                    }
+                })
+                .catch(error => console.error("Error fetching cookies:", error));
+        });
+
+        function acceptCookies() {
+            fetch('/accept-cookies', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(() => {
+                    document.getElementById("cookie-banner").style.display = "none";
+                })
+                .catch(error => console.error("Error setting cookie:", error));
+        }
+
+        function deleteCookies() {
+            fetch('/delete-cookies')
+                .then(response => response.json())
+                .then(() => {
+                    alert("Cookies deleted successfully.");
+                    document.getElementById("cookie-banner").style.display = "block";
+                })
+                .catch(error => console.error("Error deleting cookie:", error));
+        }
+
+        function declineCookies() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function closeBanner() {
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+
     </script>
     <script src="{{ asset('asset/js/signup.js') }}"></script>
 </body>
