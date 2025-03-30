@@ -13,6 +13,7 @@ use App\Http\Controllers\logoutcontroller;
 use App\Http\Controllers\editcontroller;
 use App\Http\Controllers\googlecontroller;
 use App\Http\Controllers\CookieController;
+use App\Http\Controllers\SessionController;
 
 
 Route::controller(SignupController::class)->group(function () {
@@ -40,9 +41,8 @@ Route::middleware(['authCheck'])->group(function () {
 Route::get('/forget_email', [forgetcontroller::class, 'forgetemail'])->name('forget_email');
 
 
-Route::controller(logoutcontroller::class)->group(function ()
-{
-    Route::get('/logout', 'logout')->name('logout');
+Route::controller(logoutController::class)->group(function () {
+    Route::post('/logout', 'logout')->name('logout');
 });
 Route::controller(editcontroller::class)->group(function ()
 {
@@ -55,3 +55,5 @@ Route::get('/hiden_div',[SignupController::class,'hiden_div'])->name('hiden_div'
 Route::get('/auth/google', [googlecontroller::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/google/callback', [googlecontroller::class, 'handleGoogleCallback']);
 Route::get('/logout', [googleController::class, 'logout'])->name('logout');
+
+Route::get('/active-sessions', [SessionController::class, 'showSessions'])->name('active.sessions');

@@ -442,3 +442,6 @@ button {
     color: #333;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
+.cf-turnstile {
+    text-align: center;
+}

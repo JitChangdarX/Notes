@@ -10,9 +10,9 @@ class Signup extends Authenticatable
 {
     use HasFactory;
     protected $table = 'signup_account';
-    protected $fillable = ['name', 'email', 'password']; // ✅ Ensure these fields are mass assignable
+    protected $fillable = ['name', 'email', 'password', 'profile_photo','remember_token']; // ✅ Ensure these fields are mass assignable
 
-    protected $hidden = ['password']; // ✅ Hide password in responses
+    protected $hidden = ['password', 'remember_token']; // ✅ Hide password in responses
 
     protected $casts = [
         'password' => 'hashed', // ✅ Ensure password is securely hashed (Laravel 10+)

@@ -112,7 +112,13 @@
             document.getElementById("backdrop").classList.toggle("active");
         }
     </script>
+  @if(session('success'))
+  <p style="color: green;">{{ session('success') }}</p>
+@endif
 
+@if(session('error'))
+  <p style="color: red;">{{ session('error') }}</p>
+@endif
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -192,9 +198,14 @@
                 </a>
 
 
-                <a href="{{ route('logout') }}" class="dropdown-item">
+                <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="ri-logout-circle-r-line"></i> Logout
                 </a>
+                
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                
             </div>
         </div>
         <script>
@@ -288,17 +299,17 @@
             </div>
         </div>
     </div>
-{{-- -> <- handle for secure page i was commentout this part --}}
+    {{-- -> <- handle for secure page i was commentout this part --}}
 
-{{-- final version --}}
+    {{-- final version --}}
     <script>
         window.history.pushState(null, "", window.location.href);
-        window.onpopstate = function () {
+        window.onpopstate = function() {
             window.history.pushState(null, "", window.location.href);
         };
     </script>
-    
-    
+
+
 
 </body>
 

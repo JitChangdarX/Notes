@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_verifications', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->string('otp');
-            $table->timestamps();
+        Schema::table('signup_account', function (Blueprint $table) {
+            $table->rememberToken()->nullable();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('email_verifications');
+        Schema::table('signup_account', function (Blueprint $table) {
+            $table->dropColumn('remember_token');
+        });
     }
 };

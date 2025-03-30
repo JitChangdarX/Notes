@@ -19,6 +19,12 @@
 
         <form action="{{ route('loginaction') }}" method="post" class="login__form">
             @csrf
+
+            @if (session('error'))
+                <div style="color: red; background: #ffd4d4; padding: 10px; margin-bottom: 10px;">
+                    {{ session('error') }}
+                </div>
+            @endif
             <h1 class="login__title">Login</h1>
 
             <div class="login__inputs">
@@ -40,12 +46,16 @@
                     @enderror
                 </div>
 
+                {{-- {{ dd(config('services.recaptcha.sitekey')) }} --}}
+
                 <div class="mb-4">
                     <div class="recaptcha-wrapper bg-light rounded-3 p-3 mb-2">
                         <div class="d-flex justify-content-center">
-                            <div class="g-recaptcha" data-sitekey="{{ env('NOCAPTCHA_SITEKEY') }}"
+                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"
                                 data-callback="recaptchaCallback" data-theme="light" data-size="normal">
                             </div>
+                            <input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
+
                         </div>
                     </div>
 
@@ -122,6 +132,12 @@
         };
     </script>
 
+<script>
+    function recaptchaCallback(response) {
+        console.log("ReCAPTCHA verified:", response);
+        document.getElementById("recaptchaResponse").value = response;
+    }
+</script>
 </body>
 
 </html>

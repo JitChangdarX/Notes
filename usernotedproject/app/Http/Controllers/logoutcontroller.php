@@ -1,21 +1,25 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
-
-class logoutcontroller extends Controller
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+class LogoutController extends Controller
 {
     public function logout(Request $request) {
-        Auth::logout(); // Logout the user
-        
-        // Clear session data completely
-        Session::flush();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $userId = Session::get('user_id');
+
+        if ($userId) {
+            // ✅ Clear remember token in database
+            DB::table('signup_account')->where('id', $userId)->update(['remember_token' => null]);
+        }
     
-        // Redirect to login page with a message
-        return redirect('/login')->with('message', 'Logged out successfully');
+        // ✅ Destroy session
+        Session::flush();
+        Session::regenerate();
+    
+        return redirect('/login')->with('success', 'Logged out successfully.');
     }
 }
