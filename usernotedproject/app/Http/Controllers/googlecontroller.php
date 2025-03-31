@@ -5,87 +5,78 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
+use App\Models\GoogleUser;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 class GoogleController extends Controller
 {
-    /**
-     * Redirect the user to Google's authentication page.
-     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    /**
-     * Handle the callback from Google authentication.
-     */
     public function handleGoogleCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
 
-            Log::info('Google User Data', [
+            if (!$googleUser) {
+                Log::error('Google authentication failed: No user data received.');
+                return redirect('/login')->with('error', 'Google login failed.');
+            }
+
+            Log::info('Google User Data:', [
                 'name'      => $googleUser->getName(),
                 'email'     => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
                 'avatar'    => $googleUser->getAvatar(),
             ]);
-            dd($googleUser);
-            // 🔹 Check if user already exists in database
-            $user = User::where('email', $googleUser->getEmail())->first();
+
+            // Check if user exists in google_users table
+            $user = GoogleUser::where('email', $googleUser->getEmail())->first();
 
             if (!$user) {
-                // 🔹 Create new user if not exists
-                $user = User::create([
+                // Download and store avatar
+                $avatarUrl = $googleUser->getAvatar();
+                $avatarName = 'avatars/' . Str::random(40) . '.jpg';
+                Storage::put('public/' . $avatarName, Http::get($avatarUrl)->body());
+
+                // Create a new user
+                $user = GoogleUser::create([
                     'name'      => $googleUser->getName(),
                     'email'     => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
-                    'password'  => bcrypt(uniqid()), // Generate random password for security
-                    'avatar'    => $googleUser->getAvatar(),
+                    'password'  => bcrypt(uniqid()),
+                    'avatar'    => $avatarName, // Store avatar path
                 ]);
 
                 Log::info('✅ New Google user created.');
-            } else {
-                // 🔹 Update Google avatar if missing
-                if (!$user->avatar) {
-                    $user->update(['avatar' => $googleUser->getAvatar()]);
-                }
-
-                // 🔹 Ensure Google ID is updated for existing users
-                if (!$user->google_id) {
-                    $user->update(['google_id' => $googleUser->getId()]);
-                }
-
-                Log::info('✅ Existing Google user logged in.');
             }
 
-            // 🔹 Log in the user
+            // Log in the user
             Auth::login($user);
+            Session::put('user_id', $user->id);
+            Session::save();
 
-            // 🔹 Encrypt user ID before redirecting
-            $encryptedId = encrypt($user->id);
+            Log::info('✅ User logged in successfully.');
 
-            // 🔹 Redirect to dashboard with encrypted ID
-            return redirect()->route('dashboard', ['encryptedId' => $encryptedId])
-                             ->with('success', 'Logged in successfully with Google.');
+            // Redirect to dashboard
+            return redirect()->route('dashboard')->with('success', 'Logged in successfully with Google.');
 
         } catch (\Exception $e) {
             Log::error('❌ Google Sign-In Error: ' . $e->getMessage());
-            return redirect('/signup')->with('error', 'Google Sign-In failed.');
+            return redirect('/login')->with('error', 'Google Sign-In failed.');
         }
     }
 
-    /**
-     * Logout user from the application.
-     */
     public function logout()
     {
         Auth::logout();
-        return redirect('/')->with('success', 'You have been logged out.');
+        Session::flush();
+        return redirect('/login')->with('success', 'You have been logged out.');
     }
-
-
-
 }

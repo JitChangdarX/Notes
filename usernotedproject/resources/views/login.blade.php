@@ -17,80 +17,90 @@
     <div class="login">
         <img src="{{ asset('asset/login-bg.png') }}" alt="image" class="login__bg">
 
+        @if (Auth::check())
+            <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/default-avatar.jpg') }}"
+                alt="Profile Picture">
+        @endif
+
+
+
+
+
+
         <form action="{{ route('loginaction') }}" method="post" class="login__form">
             @csrf
-
+        
             @if (session('error'))
-                <div style="color: red; background: #ffd4d4; padding: 10px; margin-bottom: 10px;">
+                <div class="error-message">
                     {{ session('error') }}
                 </div>
             @endif
+        
             <h1 class="login__title">Login</h1>
-
+        
             <div class="login__inputs">
-                <div class="login__box">
-                    <input type="email" placeholder="Email ID" id="email" name="email" class="login__input"
-                        autocomplete="off">
+                <!-- Email Input -->
+                <div class="login__box @error('email') shake @enderror">
+                    <input type="email" 
+                           placeholder="Email ID" 
+                           id="email" 
+                           name="email" 
+                           class="login__input"
+                           value="{{ old('email') }}"
+                           autocomplete="off">
                     <i class="ri-mail-fill"></i>
                     @error('email')
-                        <div class="success-feedback d-block">{{ $message }}</div>
+                        <div class="error-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="login__box">
-                    <input type="password" placeholder="Password" name="password" class="login__input" id="password"
-                        autocomplete="off">
+        
+                <!-- Password Input -->
+                <div class="login__box @error('password') shake @enderror">
+                    <input type="password" 
+                           placeholder="Password" 
+                           name="password" 
+                           class="login__input" 
+                           id="password"
+                           autocomplete="off">
                     <i id="eyeIcon" class="ri-eye-off-line" onclick="togglePassword()" style="cursor: pointer"></i>
                     @error('password')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                        <div class="error-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
-                {{-- {{ dd(config('services.recaptcha.sitekey')) }} --}}
-
-                <div class="mb-4">
-                    <div class="recaptcha-wrapper bg-light rounded-3 p-3 mb-2">
-                        <div class="d-flex justify-content-center">
-                            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"
-                                data-callback="recaptchaCallback" data-theme="light" data-size="normal">
-                            </div>
-                            <input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
-
-                        </div>
+        
+                <!-- reCAPTCHA -->
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" 
+                         data-sitekey="{{ config('services.recaptcha.sitekey') }}"
+                         data-callback="recaptchaCallback">
                     </div>
-
-
+                    <input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
                     @error('g-recaptcha-response')
-                        <div class="recaptcha-error alert alert-danger d-flex align-items-center mt-2 py-2 px-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-exclamation-circle me-2" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                                <path
-                                    d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
-                            </svg>
-                            <span>{{ $message }}</span>
-                        </div>
+                        <div class="recaptcha-error">{{ $message }}</div>
                     @enderror
                 </div>
-
-
-
             </div>
-
+        
+            <!-- Remember Me Checkbox - No shake class here -->
             <div class="login__check">
                 <div class="login__check-box">
-                    <input type="checkbox" class="login__check-input" id="user-check">
-                    <label for="user-check" class="login__check-label">Remember me</label>
+                    <input type="checkbox" 
+                           class="login__check-input" 
+                           id="user-check"
+                           name="remember">
+                    <label for="user-check" class="login__check-label" >Remember me</label>
                 </div>
                 <a href="{{ route('forget_email') }}" class="login__forgot">Forgot Password?</a>
             </div>
-
-            <button type="submit" class="login__button" id="submitBtn">Login</button>
-
+        
+            <button type="submit" class="login__button">Login</button>
+        
             <div class="login__register">
                 Don't have an account? <a href="{{ route('signup') }}">Register</a>
             </div>
         </form>
+
+
     </div>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -132,10 +142,29 @@
         };
     </script>
 
+    <script>
+        function recaptchaCallback(response) {
+            console.log("ReCAPTCHA verified:", response);
+            document.getElementById("recaptchaResponse").value = response;
+        }
+    </script>
+
 <script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.replace('ri-eye-off-line', 'ri-eye-line');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.replace('ri-eye-line', 'ri-eye-off-line');
+        }
+    }
+
     function recaptchaCallback(response) {
-        console.log("ReCAPTCHA verified:", response);
-        document.getElementById("recaptchaResponse").value = response;
+        document.getElementById('recaptchaResponse').value = response;
     }
 </script>
 </body>

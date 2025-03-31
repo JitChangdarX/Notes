@@ -4,24 +4,24 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\DB;
+use App\Models\PageVisit;
+use Illuminate\Support\Facades\Auth;
+use Jenssegers\Agent\Agent;
 
 class TrackVisits
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        DB::table('page_visits')->insert([
-            'user_id' => auth()->id() ?? null,
+        $agent = new Agent();
+
+        PageVisit::create([
+            'user_id'    => Auth::check() ? Auth::id() : null,
             'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'url' => $request->fullUrl(),
-            'created_at' => now(),
+            'user_agent' => $request->header('User-Agent'),
+            'url'        => $request->fullUrl(),
+            'referrer'   => $request->headers->get('referer') ?? 'Direct Visit',
+            'browser'    => $agent->browser(),
+            'device_type'=> $agent->isMobile() ? 'Mobile' : ($agent->isTablet() ? 'Tablet' : 'Desktop'),
         ]);
 
         return $next($request);

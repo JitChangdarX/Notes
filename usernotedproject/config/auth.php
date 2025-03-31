@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'google_users' => [
+        'driver' => 'session',
+        'provider' => 'google_users',
+    ],
     ],
 
     /*
@@ -61,9 +66,15 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
+        'driver' => 'eloquent',
+        'model' => App\Models\Signup::class, // For signup_account table
+    ],
+        'google_users' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\GoogleUser::class, // For google_users table
+    ],
+
+        
 
         // 'users' => [
         //     'driver' => 'database',

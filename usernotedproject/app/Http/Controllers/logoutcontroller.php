@@ -12,7 +12,7 @@ class LogoutController extends Controller
         $userId = Session::get('user_id');
 
         if ($userId) {
-            // ✅ Clear remember token in database
+    
             DB::table('signup_account')->where('id', $userId)->update(['remember_token' => null]);
         }
     

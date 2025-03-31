@@ -291,3 +291,34 @@ img {
     color: red;
     text-align: center
 }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+.login__box.shake {
+    animation: shake 0.5s;
+    border-color: #ff0000; /* Optional: red border for error */
+}
+
+.error-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.recaptcha-error {
+    color: #dc3545;
+    margin-top: 0.5rem;
+}
+
+.error-message {
+    color: #dc3545;
+    background: #f8d7da;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}

@@ -32,8 +32,11 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/loginaction', 'loginactions')->name('loginaction');
 });
-Route::middleware(['authCheck'])->group(function () {
-    Route::get('/dashboard', [DashbordController::class, 'dashbordaction'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashbord');
+    })->name('dashboard');
 });
 
 
@@ -54,6 +57,6 @@ Route::get('/hiden_div',[SignupController::class,'hiden_div'])->name('hiden_div'
 
 Route::get('/auth/google', [googlecontroller::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/google/callback', [googlecontroller::class, 'handleGoogleCallback']);
-Route::get('/logout', [googleController::class, 'logout'])->name('logout');
+Route::get('/logout', [googlecontroller::class, 'logout'])->name('logout');
 
 Route::get('/active-sessions', [SessionController::class, 'showSessions'])->name('active.sessions');

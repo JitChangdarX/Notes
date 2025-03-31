@@ -22,6 +22,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\PreventBackHistory::class,
+        \App\Http\Middleware\TrackVisits::class,
+        
     ];
 
     /**
@@ -65,8 +67,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-    
-        // ✅ Fix: Add custom middleware here
+        'track.visits' => \App\Http\Middleware\TrackVisits::class,
         'authCheck' => \App\Http\Middleware\AuthCheck::class,
     ];
     

@@ -57,6 +57,10 @@
 
 <body>
 
+    {{-- <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/default-avatar.jpg') }}" 
+    alt="Profile Picture" 
+    class="rounded-circle" 
+    width="50"> --}}
 
 
     @php
@@ -70,6 +74,10 @@
         // Check if profilePhotos is a valid array and fetch the first image, else set default
         $profilePhoto = is_array($profilePhotos) && !empty($profilePhotos) ? $profilePhotos[0] : 'default-profile.png';
     @endphp
+
+
+
+
 
 
     {{-- @if ($user)
@@ -112,13 +120,13 @@
             document.getElementById("backdrop").classList.toggle("active");
         }
     </script>
-  @if(session('success'))
-  <p style="color: green;">{{ session('success') }}</p>
-@endif
+    @if (session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
 
-@if(session('error'))
-  <p style="color: red;">{{ session('error') }}</p>
-@endif
+    @if (session('error'))
+        <p style="color: red;">{{ session('error') }}</p>
+    @endif
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -198,14 +206,15 @@
                 </a>
 
 
-                <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="#" class="dropdown-item"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="ri-logout-circle-r-line"></i> Logout
                 </a>
-                
+
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                
+
             </div>
         </div>
         <script>
