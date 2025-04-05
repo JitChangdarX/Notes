@@ -37,8 +37,11 @@ class LoginController extends Controller
         Log::error('Password mismatch for user: ' . $request->email);
         return back()->withErrors(['password' => 'Invalid email or password.']);
     }
-
- 
+    if ($user->online_user == 1) {
+        Log::warning('User already online: ' . $request->email);
+        return back()->withErrors(['login_error' => 'You are already logged in from another device.']);
+    }
+    
     $remember = $request->has('remember');
 
     if ($remember) {
@@ -52,7 +55,7 @@ class LoginController extends Controller
 
     
         if ($user->save()) {
-            Log::info('🔹 User with Remember Token saved: ', ['user' => $user]);
+            Log::info('User with Remember Token saved: ', ['user' => $user]);
         } else {
             Log::error(' Failed to save remember token');
         }
@@ -68,17 +71,33 @@ class LoginController extends Controller
 
     Log::info(' Session saved:', Session::all());
     $newToken = Str::random(60);
-     DB::table('signup_account')->where('id', $user->id)->update(['remember_token' => $newToken]);
+     DB::table('signup_account')->where('id', $user->id)->update([
+        'remember_token' => $newToken,
+        'online_user' => 1
+    ]);
     return redirect()->route('dashboard')->with('success', 'Login successful!');
 }
-    public function logout()
-    {
-        Log::info('🔹 Logging out user: ' . Auth::id());
-        DB::table('signup_account')->where('id', Session::get('user_id'))->update(['remember_token' => null]);
-        if (Auth::guard('web')->check()) {
-            Auth::guard('web')->logout();
-        }
-        Session::flush();
-        return redirect('/login')->with('success', 'Logged out successfully.');
+public function logout()
+{
+    $userId = Auth::id();
+    Log::info('🔹 Logging out user: ' . $userId);
+
+    if ($userId) {
+        $updated = DB::table('signup_account')->where('id', $userId)->update([
+            'remember_token' => null,
+            'online_user' => 0
+        ]);
+
+        Log::info('🔹 Database Update Status: ' . $updated);
     }
+
+    if (Auth::guard('web')->check()) {
+        Auth::guard('web')->logout();
+    }
+
+    Session::flush();
+
+    return redirect('/login')->with('success', 'Logged out successfully.');
+}
+
 }

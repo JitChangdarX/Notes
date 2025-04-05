@@ -1,78 +1,37 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="view-transition" content="same-origin">
-    <title>dashbord</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="{{ asset('asset/css/dashbord.css') }}">
     <script src="{{ asset('asset/js/dashbord.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
-
-    <script>
-        $('#exampleModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var recipient = button.data('whatever') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this)
-            modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('.modal-body input').val(recipient)
-        })
-
-        function toggleSettings() {
-            const panel = document.getElementById('settingsPanel');
-            const overlay = document.querySelector('.backdrop-overlay');
-
-            panel.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        document.addEventListener('click', function(event) {
-            const panel = document.getElementById('settingsPanel');
-            const button = document.querySelector('.settings-btn');
-            const overlay = document.querySelector('.backdrop-overlay');
-
-            if (!panel.contains(event.target) && event.target !== button) {
-                panel.classList.remove('active');
-                overlay.classList.remove('active');
-            }
-        });
-    </script>
-
 </head>
-
 <body>
-
-    {{-- <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/default-avatar.jpg') }}" 
-    alt="Profile Picture" 
-    class="rounded-circle" 
-    width="50"> --}}
-
-
     @php
         use Illuminate\Support\Facades\DB;
 
         $user = DB::table('signup_account')->where('id', session('user_id'))->first();
 
-        // Ensure $user is not null before accessing properties
         $profilePhotos = $user ? json_decode($user->profile_photo, true) : null;
 
-        // Check if profilePhotos is a valid array and fetch the first image, else set default
         $profilePhoto = is_array($profilePhotos) && !empty($profilePhotos) ? $profilePhotos[0] : 'default-profile.png';
+    
     @endphp
 
 
@@ -80,11 +39,7 @@
 
 
 
-    {{-- @if ($user)
-        <p>User ID: {{ $user->id }}</p>
-        <p>User Name: {{ $user->name }}</p>
-        <p>Email: {{ $user->email }}</p>
-    @endif --}}
+
     <button class="toggle-btn" onclick="toggleMenu()">
         <span></span>
         <span></span>
@@ -97,20 +52,12 @@
             <li><a href="#about">👤 About</a></li>
             <li><a href="#services">🛠 Services</a></li>
             <li><a href="#portfolio">📁 Portfolio</a></li>
-            <li data-toggle="modal" data-target="#exampleModal">
-                <a href="#contact">📧 Contact</a>
+            <li>
+                <a href="javascript:void(0)" style="text-decoration: none" onclick="openContactModal()" class="contact-link">📧 Contact</a>
             </li>
         </ul>
     </nav>
-
-    <!-- Backdrop -->
     <div class="backdrop" id="backdrop" onclick="toggleMenu()"></div>
-
-    <!-- Main Content -->
-    {{-- <div class="content" id="mainContent">
-        <h1>Modern Animated Sidebar</h1>
-        <p>Experience smooth animations and modern interactions!</p>
-    </div> --}}
 
     <script>
         function toggleMenu() {
@@ -120,13 +67,6 @@
             document.getElementById("backdrop").classList.toggle("active");
         }
     </script>
-    @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
-
-    @if (session('error'))
-        <p style="color: red;">{{ session('error') }}</p>
-    @endif
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -163,22 +103,8 @@
 
 
     <div class="header">
-        {{-- <div class="logo-container">
-            <a href="{{ route('dashbord', ['id' => session('user_id')]) }}" class="logo-link">
-                <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" alt="Logo"
-                    class="logo-image">
-            </a>
-            <h1 class="logo-title">My Notes</h1>
-        </div> --}}
-
         <a href="#" class="nav-link">
-            {{-- <img src="keep-icon.png" alt="Keep Icon" style="width: 20px;"> --}}
-            {{-- Keep --}}
         </a>
-
-
-
-
 
         <div class="profile-container">
             <div class="profile-header">
@@ -252,12 +178,7 @@
         <div id="showdiv"></div>
 
 
-        {{-- <div class="searchbox">
-            <form action="" method="POST" class="search-box">
-                @csrf
-                <input type="text" placeholder="Search...">
-            </form>
-        </div> --}}
+
     </div>
 
     {{-- setting --}}
@@ -267,6 +188,11 @@
         <h2>Settings</h2>
         <div class="settings-options">
             <button><i class="ri-settings-4-fill"></i> General</button>
+            <button id="theme-switch">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/></svg>
+              </button>
+            
             <button><i class="ri-user-heart-fill"></i> Personalization</button>
             <button><i class="ri-apps-2-line"></i> Connected Apps</button>
             <button><i class="ri-lock-password-fill"></i> Privacy</button>
@@ -319,7 +245,61 @@
     </script>
 
 
+<script>
+const systemDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+        const themeToggle = document.getElementById('theme-switch');
+        const savedTheme = localStorage.getItem('theme');
 
+        function applyTheme(isDark) {
+    document.documentElement.style.setProperty('--background', isDark ? '#0f172a' : '#ffffff');
+    document.documentElement.style.setProperty('--surface-color', isDark ? '#1e293b' : '#f1f5f9');
+    document.documentElement.style.setProperty('--text-color', isDark ? '#f8fafc' : '#1e293b');
+    document.body.style.background = isDark ? '#0f172a' : '#ffffff'; // Directly updating body background
+}
+
+
+        function updateToggleIcon(isDark) {
+            themeToggle.textContent = isDark ? '🌙' : '☀️';
+        }
+
+        if (savedTheme) {
+            const isDark = savedTheme === 'dark';
+            applyTheme(isDark);
+            updateToggleIcon(isDark);
+        } else {
+            applyTheme(systemDarkMode.matches);
+            updateToggleIcon(systemDarkMode.matches);
+        }
+
+        systemDarkMode.addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches);
+                updateToggleIcon(e.matches);
+            }
+        });
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.style.getPropertyValue('--background') === '#0f172a';
+            const newTheme = !isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(!isDark);
+            updateToggleIcon(!isDark);
+        });
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                const isDark = e.newValue === 'dark';
+                applyTheme(isDark);
+                updateToggleIcon(isDark);
+            }
+        });
+    </script>
+
+
+
+
+
+    
 </body>
 
 </html>

@@ -16,6 +16,13 @@ class PageVisit extends Model
         'url',
         'referrer',
         'browser',
-        'device_type'
+        'device_type',
+        'country',
+        'country_code',
+        'region',
+        'city',
+        'zip_code',
+        'latitude',
+        'longitude'
     ];
 }

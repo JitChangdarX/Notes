@@ -24,6 +24,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventBackHistory::class,
         \App\Http\Middleware\TrackVisits::class,
         
+        
     ];
 
     /**
@@ -69,6 +70,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'track.visits' => \App\Http\Middleware\TrackVisits::class,
         'authCheck' => \App\Http\Middleware\AuthCheck::class,
+
     ];
     
 }

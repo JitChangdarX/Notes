@@ -31,9 +31,8 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
-
-    'expire_on_close' => false,
+'lifetime' => env('SESSION_LIFETIME', 1), // 1 minute for quick expiry (you can adjust later)
+'expire_on_close' => true, // force session to expire when browser is closed
 
     /*
     |--------------------------------------------------------------------------

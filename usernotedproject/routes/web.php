@@ -14,7 +14,7 @@ use App\Http\Controllers\editcontroller;
 use App\Http\Controllers\googlecontroller;
 use App\Http\Controllers\CookieController;
 use App\Http\Controllers\SessionController;
-
+use App\Http\Controllers\PageVisitController;
 
 Route::controller(SignupController::class)->group(function () {
     Route::get('/signup', 'signup')->name('signup');
@@ -60,3 +60,6 @@ Route::get('/google/callback', [googlecontroller::class, 'handleGoogleCallback']
 Route::get('/logout', [googlecontroller::class, 'logout'])->name('logout');
 
 Route::get('/active-sessions', [SessionController::class, 'showSessions'])->name('active.sessions');
+
+
+Route::get('/admin/page-visits', [PageVisitController::class, 'index'])->name('page-visits.index');

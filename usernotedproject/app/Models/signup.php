@@ -15,7 +15,7 @@ class Signup extends Authenticatable
     protected $fillable = ['name', 'email', 'password', 'profile_photo', 'remember_token'];
 
     // Fields that should be hidden
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password','online_user', 'remember_token'];
 
     protected $casts = [
         'password' => 'hashed',

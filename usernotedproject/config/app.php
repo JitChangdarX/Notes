@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Stevebauman\Location\LocationServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -214,6 +215,7 @@ return [
     'socialite' => Laravel\Socialite\Facades\Socialite::class,
        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Location' => Stevebauman\Location\Facades\Location::class,
     ])->toArray(),
 
 ];

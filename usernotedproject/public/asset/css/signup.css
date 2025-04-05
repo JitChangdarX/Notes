@@ -1,3 +1,4 @@
+/* Base styles */
 h2 {
     text-align: center;
     color: white;
@@ -10,7 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Changed to min-height for better mobile compatibility */
     background: url('https://source.unsplash.com/1600x900/?nature,landscape') no-repeat center center/cover;
     transition: filter 0.5s ease-in-out;
 }
@@ -22,29 +23,46 @@ body {
     align-items: center;
     justify-content: center;
     padding: 1rem;
+    width: 100%;
+    max-width: 500px; /* Added max-width for better control */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: filter 0.3s ease;
 }
 
-/* Adjusting card size */
+/* Card styling */
 .card {
     margin-top: 2rem;
-    width: 50rem;
-    max-width: 90%;
-    /* Makes it responsive */
+    width: 100%;
+    max-width: 50rem;
 }
 
 /* Column margin */
 .col {
-    margin: 2rem;
+    margin: 1.5rem; /* Reduced for mobile */
 }
 
 /* Button styling */
-button {
-    justify-content: center;
+button, #myButton {
     display: block;
-    margin-top: 2rem;
-    text-align: center;
+    margin: 1.5rem auto 0;
     padding: 10px 20px;
     font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#myButton {
+    background-color: #e91e63;
+    color: #fff;
+}
+
+#myButton:hover {
+    background-color: #d81b60;
+    transform: scale(1.05); /* Added animation */
 }
 
 /* Signup title */
@@ -68,6 +86,11 @@ button {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
     cursor: pointer;
+    transition: transform 0.3s ease; /* Added animation */
+}
+
+.logo-container:hover {
+    transform: scale(1.1); /* Added hover animation */
 }
 
 /* Logo image */
@@ -76,7 +99,11 @@ button {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
+
+.blurred { filter: blur(5px); }
+.focused { transform: scale(1.2); z-index: 10; filter: blur(0); }
 
 /* Show password text */
 .show-password {
@@ -84,103 +111,128 @@ button {
     color: black;
 }
 
-/* Alerts and validation messages */
-.alert {
+/* Alerts and validation */
+.alert, .invalid-feedback {
     display: block !important;
 }
 
 .invalid-feedback {
-    display: block !important;
     color: red !important;
 }
 
-/* ---------- MEDIA QUERIES ---------- */
-
-/* Tablets (max-width: 768px) */
-@media (max-width: 768px) {
-    .card {
-        width: 80%;
-        max-width: 600px;
-    }
-
-    .logo-container {
-        width: 80px;
-        height: 80px;
-    }
-
-    .logo-image {
-        width: 100px;
-        height: 100px;
-    }
-
-    .signup-title {
-        font-size: 1.5rem;
-    }
+/* Google signup button */
+.google-signup-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3c4043;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Mobile (max-width: 480px) */
-@media (max-width: 480px) {
-    .card {
-        width: 90%;
-        max-width: 350px;
-    }
-
-    .logo-container {
-        width: 70px;
-        height: 70px;
-    }
-
-    .logo-image {
-        width: 80px;
-        height: 80px;
-    }
-
-    .signup-title {
-        font-size: 1.3rem;
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-    }
+.google-signup-btn:hover {
+    border-color: #d2d5d9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    background-color: #f8f9fa;
+    transform: translateY(-2px); /* Added animation */
 }
 
-.logo-container {
-    .container {
-        width: 400px;
-        padding: 20px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: filter 0.3s ease;
-    }
+.google-icon { margin-right: 10px; display: flex; align-items: center; }
+.google-text { line-height: 1; }
+.text-center { text-align: center; }
+.mb-4 { margin-bottom: 1.5rem; }
 
-    .logo-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        cursor: pointer;
-    }
-
-    .logo-image {
-        width: 120px;
-        border-radius: 67px;
-        transition: transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .blurred {
-        filter: blur(5px);
-    }
-
-    .focused {
-        transform: scale(1.2);
-        z-index: 10;
-        filter: blur(0);
-    }
+/* Cookie consent */
+.cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 90%; /* Made responsive */
+    max-width: 320px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: scale(0.8);
+    z-index: 1000;
+    animation: slideIn 0.5s ease forwards 1s; /* Added animation */
 }
 
+.cookie-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 15px;
+    position: relative;
+}
+
+.cookie {
+    width: 100%;
+    height: 100%;
+    background: #d35400;
+    border-radius: 50%;
+    position: absolute;
+    animation: spinCookie 3s linear infinite; /* Simplified animation */
+}
+
+.chip { position: absolute; background: #783f04; border-radius: 50%; }
+.chip1 { width: 6px; height: 6px; top: 10px; left: 10px; }
+.chip2 { width: 4px; height: 4px; top: 25px; left: 15px; }
+.chip3 { width: 5px; height: 5px; top: 15px; left: 25px; }
+
+.cookie-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.cookie-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.cookie-consent {
+    display: block; /* Ensure it’s not hidden by display: none */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 90%;
+    max-width: 320px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: scale(0.8);
+    z-index: 1000;
+    animation: slideIn 0.5s ease forwards 1s;
+}
+.cookie-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.accept-btn { background: #3498db; color: white; }
+.decline-btn { background: #7f8c8d; color: white; }
+.cookie-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+/* Loader */
 #loader {
     display: none;
     position: fixed;
@@ -189,12 +241,9 @@ button {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
-    /* Transparent background */
-    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    /* Ensures loader appears above all content */
 }
 
 .spinner {
@@ -206,242 +255,39 @@ button {
     animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+/* Animations */
+@keyframes spin { 
+    to { transform: rotate(360deg); } 
 }
 
-#myButton {
-    background-color: #e91e63;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+@keyframes spinCookie { 
+    to { transform: rotate(360deg); } 
 }
 
-#myButton:hover {
-    background-color: #d81b60;
+@keyframes slideIn {
+    to { opacity: 1; transform: scale(1); }
 }
 
-.btn-google {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff;
-    color: #444;
-    font-size: 16px;
-    font-weight: bold;
-    border: 2px solid #ddd;
-    border-radius: 50px;
-    padding: 12px 20px;
-    width: 250px;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+/* Media Queries */
+@media (max-width: 768px) {
+    .container { max-width: 90%; padding: 15px; }
+    .card { max-width: 100%; }
+    .col { margin: 1rem; }
+    .logo-container { width: 80px; height: 80px; }
+    .logo-image { width: 100px; height: 100px; }
+    .signup-title { font-size: 1.5rem; }
+    .cookie-consent { max-width: 280px; right: 10px; bottom: 10px; }
 }
 
-.btn-google img {
-    width: 24px;
-    margin-right: 12px;
-}
-
-.btn-google:hover {
-    background-color: #f8f8f8;
-    border-color: #ccc;
-    transform: scale(1.05);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.text-center {
-    text-align: center;
-}
-
-.google-signup {
-    display: inline-flex;
-    /* Changed from flex to inline-flex for better centering */
-    align-items: left;
-    justify-content: center;
-    gap: 10px;
-    width: auto;
-    /* Changed from 100% to auto for natural button width */
-    max-width: 100%;
-    /* Ensures it doesn't overflow its container */
-    padding: 10px 20px;
-    /* Added horizontal padding for better button proportions */
-    background: white;
-    border: 1px solid #dadce0;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #3c4043;
-    text-decoration: none;
-    transition: background 0.2s;
-}
-
-.google-signup:hover {
-    background: #f8f9fa;
-    text-decoration: none;
-}
-
-
-
-/* Wrapper to position the banner */
-#cookie-banner-wrapper {
-    position: fixed;
-    top: 20px; /* Matches the image's top-right placement */
-    right: 20px;
-    z-index: 1000; /* Ensure it appears on top */
-}
-
-/* Cookie banner styles */
-#cookie-banner {
-    background-color: #f5f5f5; /* Light gray background */
-    border: 2px solid #e0e0e0; /* Soft border */
-    border-radius: 50px; /* Circular ends for pill shape */
-    padding: 15px 25px; /* Tighter padding */
-    max-width: 350px; /* Slightly narrower */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
-    display: flex; /* Flex for layout */
-    align-items: center; /* Vertically center content */
-    opacity: 0; /* For fade-in effect */
-    animation: fadeIn 0.5s ease forwards; /* Simple fade-in */
-}
-
-/* Fade-in animation */
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-/* Close button styles */
-#close-button {
-    position: absolute;
-    top: -12px; /* Adjusted to sit outside the banner */
-    right: -12px; /* Adjusted to sit outside the banner */
-    width: 28px; /* Slightly larger for visibility */
-    height: 28px;
-    background-color: #ff6b6b; /* Bright red */
-    color: white;
-    border: none;
-    border-radius: 50%; /* Circular button */
-    font-size: 18px; /* Larger × */
-    line-height: 28px; /* Center the × vertically */
-    text-align: center; /* Center the × horizontally */
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-#close-button:hover {
-    background-color: #e63939; /* Darker red */
-    transform: scale(1.1); /* Slight grow effect */
-}
-
-/* Cookie GIF styles */
-.cookie-image {
-    width: 50px; /* Adjusted to match the image size */
-    height: 50px;
-    border-radius: 50%; /* Circular GIF */
-    border: 3px solid #ffd700; /* Gold border */
-    margin-right: 15px; /* Space from content */
-    animation: pulse 1.5s infinite ease-in-out; /* Pulsing effect */
-}
-
-/* Pulse animation for GIF */
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05); /* Slight grow */
-    }
-}
-
-/* Content container */
-.cookie-content {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Tighter gap */
-}
-
-/* Cookie icon styles */
-.cookie-icon {
-    font-size: 24px;
-    color: #6b4e31; /* Brown cookie color */
-}
-
-/* Paragraph text styles */
-#cookie-banner p {
-    font-size: 14px;
-    color: #444; /* Darker gray */
-    margin: 0;
-    line-height: 1.5;
-}
-
-/* Learn more link styles */
-.learn-more {
-    color: #00b4d8; /* Cyan blue */
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.learn-more:hover {
-    color: #0077b6; /* Darker cyan */
-    text-decoration: underline;
-}
-
-/* Button group */
-.button-group {
-    display: flex;
-    gap: 8px; /* Smaller gap */
-    margin-left: 10px; /* Space from text */
-}
-
-/* Accept button styles */
-.accept-btn {
-    background-color: #00b4d8; /* Cyan blue */
-    color: white;
-    border: none;
-    padding: 8px 16px; /* Smaller padding */
-    border-radius: 20px; /* Rounded ends */
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.accept-btn:hover {
-    background-color: #0077b6; /* Darker cyan */
-    box-shadow: 0 2px 8px rgba(0, 180, 216, 0.3); /* Glow effect */
-}
-
-/* Decline button styles */
-.decline-btn {
-    background-color: transparent; /* No fill */
-    color: #666;
-    border: 2px solid #666; /* Gray border */
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.decline-btn:hover {
-    border-color: #333; /* Darker border */
-    color: #333;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-}
-.cf-turnstile {
-    text-align: center;
+@media (max-width: 480px) {
+    .container { max-width: 95%; padding: 10px; }
+    .card { max-width: 100%; }
+    .col { margin: 0.5rem; }
+    .logo-container { width: 60px; height: 60px; margin: -30px auto 5px; }
+    .logo-image { width: 80px; height: 80px; }
+    .signup-title { font-size: 1.3rem; }
+    button, #myButton { width: 100%; padding: 12px; }
+    .cookie-consent { width: 95%; max-width: none; right: 5px; bottom: 5px; padding: 10px; }
+    .cookie-text { font-size: 12px; }
+    .cookie-btn { padding: 6px 12px; font-size: 12px; }
 }

@@ -322,3 +322,111 @@ img {
     margin-bottom: 1rem;
     border-radius: 4px;
 }
+
+
+
+.global-alert {
+    position: relative;
+    margin: 20px;
+    padding: 18px 50px 18px 70px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    transform: translateY(-50px) scale(0.9);
+    opacity: 0;
+    animation: alertEnter 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+}
+
+@keyframes alertEnter {
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.alert-icon {
+    position: absolute;
+    left: 20px;
+    font-size: 28px;
+    animation: iconBounce 1s ease;
+}
+
+.alert-body {
+    flex-grow: 1;
+}
+
+.alert-title {
+    margin: 0 0 4px 0;
+    font: 600 16px/1.2 'Segoe UI', system-ui, sans-serif;
+    color: #2c3e50;
+}
+
+.alert-message {
+    margin: 0;
+    font: 14px/1.4 'Segoe UI', system-ui, sans-serif;
+    color: #7f8c8d;
+    max-width: 400px;
+}
+
+.alert-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 24px;
+    color: #95a5a6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px;
+}
+
+.alert-close:hover {
+    color: #e74c3c;
+    transform: rotate(90deg);
+}
+
+.alert-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+    width: 100%;
+    transform-origin: left;
+    animation: progressShrink 5s linear forwards;
+}
+
+@keyframes progressShrink {
+    from { transform: scaleX(1) }
+    to { transform: scaleX(0) }
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: translateY(0) }
+    50% { transform: translateY(-8px) }
+}
+
+.global-alert-exit {
+    animation: alertExit 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+}
+
+@keyframes alertExit {
+    to {
+        transform: translateY(-40px) scale(0.8);
+        opacity: 0;
+    }
+}
+.alert-close {
+/* Add these properties */
+user-select: none;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+}
+
+.alert-close:active {
+transform: scale(0.9) rotate(90deg);
+}
