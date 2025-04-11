@@ -5,15 +5,17 @@ h2 {
 }
 
 body {
-    background-color: black;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Changed to min-height for better mobile compatibility */
+    min-height: 100vh; /* Already good, kept as is */
     background: url('https://source.unsplash.com/1600x900/?nature,landscape') no-repeat center center/cover;
     transition: filter 0.5s ease-in-out;
+    background: linear-gradient(135deg, #1e1e2f, #2a2a3d); /* Deep bluish gradient */
+    color: #ffffff;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 /* Centering container */
@@ -24,23 +26,27 @@ body {
     justify-content: center;
     padding: 1rem;
     width: 100%;
-    max-width: 500px; /* Added max-width for better control */
+    max-width: 500px; /* Kept as is */
     background: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: filter 0.3s ease;
+    min-height: 0; /* Allow container to shrink if content is small */
+    box-sizing: border-box; /* Include padding in width/height */
 }
 
 /* Card styling */
 .card {
     margin-top: 2rem;
     width: 100%;
-    max-width: 50rem;
+    max-width: 50rem; /* Kept as is */
+    box-sizing: border-box; /* Ensure padding/margins don’t exceed width */
 }
 
 /* Column margin */
 .col {
-    margin: 1.5rem; /* Reduced for mobile */
+    margin: 1.5rem; /* Kept as is, adjusted in media queries */
+    width: calc(100% - 3rem); /* Ensure it fits within parent with margin */
 }
 
 /* Button styling */
@@ -53,6 +59,8 @@ button, #myButton {
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    width: auto; /* Allow natural width, adjusted in media queries */
+    max-width: 100%; /* Prevent overflow */
 }
 
 #myButton {
@@ -62,7 +70,7 @@ button, #myButton {
 
 #myButton:hover {
     background-color: #d81b60;
-    transform: scale(1.05); /* Added animation */
+    transform: scale(1.05);
 }
 
 /* Signup title */
@@ -74,24 +82,7 @@ button, #myButton {
 }
 
 /* Logo container */
-.logo-container {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: #007bff;
-    margin: -50px auto 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease; /* Added animation */
-}
 
-.logo-container:hover {
-    transform: scale(1.1); /* Added hover animation */
-}
 
 /* Logo image */
 .logo-image {
@@ -136,13 +127,14 @@ button, #myButton {
     color: #3c4043;
     transition: all 0.2s ease;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    max-width: 100%; /* Prevent overflow */
 }
 
 .google-signup-btn:hover {
     border-color: #d2d5d9;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     background-color: #f8f9fa;
-    transform: translateY(-2px); /* Added animation */
+    transform: translateY(-2px);
 }
 
 .google-icon { margin-right: 10px; display: flex; align-items: center; }
@@ -152,10 +144,11 @@ button, #myButton {
 
 /* Cookie consent */
 .cookie-consent {
+    display: block;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 90%; /* Made responsive */
+    width: 90%;
     max-width: 320px;
     background: #2c3e50;
     color: #ecf0f1;
@@ -165,9 +158,11 @@ button, #myButton {
     opacity: 0;
     transform: scale(0.8);
     z-index: 1000;
-    animation: slideIn 0.5s ease forwards 1s; /* Added animation */
+    animation: slideIn 0.5s ease forwards 1s;
+    box-sizing: border-box; /* Include padding in width */
 }
 
+/* Cookie icon and animation remain unchanged */
 .cookie-icon {
     width: 40px;
     height: 40px;
@@ -181,7 +176,7 @@ button, #myButton {
     background: #d35400;
     border-radius: 50%;
     position: absolute;
-    animation: spinCookie 3s linear infinite; /* Simplified animation */
+    animation: spinCookie 3s linear infinite;
 }
 
 .chip { position: absolute; background: #783f04; border-radius: 50%; }
@@ -201,23 +196,7 @@ button, #myButton {
     justify-content: flex-end;
     gap: 10px;
 }
-.cookie-consent {
-    display: block; /* Ensure it’s not hidden by display: none */
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 90%;
-    max-width: 320px;
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transform: scale(0.8);
-    z-index: 1000;
-    animation: slideIn 0.5s ease forwards 1s;
-}
+
 .cookie-btn {
     padding: 8px 16px;
     border: none;
@@ -268,26 +247,146 @@ button, #myButton {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Media Queries */
+/* Updated Media Queries */
 @media (max-width: 768px) {
-    .container { max-width: 90%; padding: 15px; }
-    .card { max-width: 100%; }
-    .col { margin: 1rem; }
-    .logo-container { width: 80px; height: 80px; }
-    .logo-image { width: 100px; height: 100px; }
-    .signup-title { font-size: 1.5rem; }
-    .cookie-consent { max-width: 280px; right: 10px; bottom: 10px; }
+    .container { 
+        max-width: 90%; 
+        padding: 15px; 
+        margin: 0 auto; /* Center horizontally */
+        min-height: auto; /* Allow natural height */
+    }
+    .card { 
+        max-width: 100%; 
+        margin-top: 1rem; /* Reduced for smaller screens */
+    }
+    .col { 
+        margin: 1rem; 
+        width: calc(100% - 2rem); /* Adjust for padding */
+    }
+   
+    .signup-title { 
+        font-size: 1.5rem; 
+    }
+    .cookie-consent { 
+        max-width: 280px; 
+        right: 10px; 
+        bottom: 10px; 
+        padding: 12px; 
+    }
+    button, #myButton { 
+        width: 100%; /* Full width on tablets */
+        padding: 10px; 
+    }
 }
 
 @media (max-width: 480px) {
-    .container { max-width: 95%; padding: 10px; }
-    .card { max-width: 100%; }
-    .col { margin: 0.5rem; }
-    .logo-container { width: 60px; height: 60px; margin: -30px auto 5px; }
-    .logo-image { width: 80px; height: 80px; }
-    .signup-title { font-size: 1.3rem; }
-    button, #myButton { width: 100%; padding: 12px; }
-    .cookie-consent { width: 95%; max-width: none; right: 5px; bottom: 5px; padding: 10px; }
-    .cookie-text { font-size: 12px; }
-    .cookie-btn { padding: 6px 12px; font-size: 12px; }
+    .container { 
+        max-width: 100%; /* Full width on small screens */
+        padding: 10px; 
+        margin: 0; /* Remove margin to use full viewport */
+        border-radius: 0; /* Remove rounding for edge-to-edge */
+    }
+    .card { 
+        max-width: 100%; 
+        margin-top: 0.5rem; 
+    }
+    .col { 
+        margin: 0.5rem; 
+        width: calc(100% - 1rem); /* Adjust for padding */
+    }
+  
+    .signup-title { 
+        font-size: 1.3rem; 
+    }
+    button, #myButton { 
+        width: 100%; 
+        padding: 12px; 
+        font-size: 0.9rem; /* Slightly smaller text */
+    }
+    .cookie-consent { 
+        width: 90%; 
+        max-width: none; 
+        right: 5px; 
+        bottom: 5px; 
+        padding: 10px; 
+    }
+    .cookie-text { 
+        font-size: 12px; 
+    }
+    .cookie-btn { 
+        padding: 6px 12px; 
+        font-size: 12px; 
+    }
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .preview-item {
+    animation: fadeInScale 0.5s ease forwards;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .preview-item img {
+    width: 100%;
+    height: 100px; /* Fixed height for consistency */
+    object-fit: cover;
+    display: block;
+  }
+  .preview-item .remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+  }
+  .preview-item:hover .remove-btn {
+    opacity: 1;
+  }
+  .preview-item p {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+.logo-container {
+    display: flex;
+    justify-content: center; /* Center the logo horizontally */
+    align-items: center;     /* Center the logo vertically */
+    padding: 10px;           /* Optional: Add some spacing around the logo */
+}
+
+/* Style for the logo image */
+.logo-image {
+    width: 150px;            /* Set a fixed width */
+    height: 150px;           /* Set a fixed height to match width for a perfect circle */
+    border-radius: 50%;      /* Makes the image circular */
+    object-fit: cover;       /* Ensures the image fills the circle without distortion */
+    border: 3px solid #fff;  /* Adds a white border for a clean look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for depth */
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+/* Optional: Hover effect */
+.logo-image:hoverplaatst
+
+{
+    transform: scale(1.05);  /* Slightly enlarges the logo on hover */
 }

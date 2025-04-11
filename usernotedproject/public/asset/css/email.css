@@ -1,324 +1,235 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-:root {
-    --primary-color: #0a66c2;
-    --secondary-color: #f5f7fa;
-    --text-color: #1a1a1a;
-    --white-color: #ffffff;
-    --error-color: #d32f2f;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Basic styling */
 body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #e6ecf0 0%, #ffffff 100%);
-    min-height: 100vh;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    overflow: hidden; /* Prevent scroll during animations */
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 900px;
-    width: 90%;
-    margin: 20px auto;
-    position: relative;
-}
-
-.form-wrapper {
-    display: flex;
-    background: var(--white-color);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    animation: slideIn 0.8s ease-out forwards;
-}
-
-.image-section {
-    flex: 1;
-    background: #000;
-    position: relative;
-    overflow: hidden;
-}
-
-.form-image {
+    max-width: 450px;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.9;
-    animation: floatImage 6s ease-in-out infinite;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-.form-section {
-    flex: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.container:hover {
+    transform: translateY(-5px);
 }
 
-.form-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 10px;
+h2 {
     text-align: center;
-    animation: fadeInDown 0.6s ease-out;
+    margin-bottom: 25px;
+    color: #2d3436;
+    font-size: 24px;
 }
 
-.form-subtitle {
-    font-size: 0.95rem;
-    color: #666;
+.message {
+    padding: 12px;
     margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 14px;
     text-align: center;
-    animation: fadeInUp 0.6s ease-out 0.2s forwards;
     opacity: 0;
+    animation: bounceIn 0.6s ease forwards;
 }
 
-.reset-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.message.success {
+    background-color: #e7f7e9;
+    color: #27ae60;
+}
+
+.message.error {
+    background-color: #ffe6e6;
+    color: #c0392b;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .input-group {
-    position: relative;
-    animation: fadeInUp 0.6s ease-out 0.4s forwards;
-    opacity: 0;
+    margin-bottom: 25px;
 }
 
-.input-group label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-color);
-    margin-bottom: 5px;
+label {
     display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2d3436;
 }
 
-.input-group input {
+input[type="email"] {
     width: 100%;
-    padding: 12px 16px 12px 40px; /* Space for icon */
-    border: 1px solid #dcdcdc;
+    padding: 12px;
     border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.input-group input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 8px rgba(10, 102, 194, 0.3);
-    transform: scale(1.02);
+    border: 1px solid #dfe6e9;
     outline: none;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
 }
 
-.input-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: #999;
-    transition: color 0.3s ease;
+input[type="email"]:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
-.input-group input:focus + .input-icon {
-    color: var(--primary-color);
+input.error {
+    border-color: #e74c3c;
 }
 
 .error-message {
-    font-size: 0.85rem;
-    color: var(--error-color);
+    color: #e74c3c;
+    font-size: 13px;
     margin-top: 5px;
     display: none;
-    animation: shake 0.5s ease;
 }
 
-.submit-btn {
-    padding: 12px;
-    background: var(--primary-color);
-    color: var(--white-color);
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-out 0.6s forwards;
-    opacity: 0;
-}
-
-.submit-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
-}
-
-.submit-btn:hover::before {
-    width: 200%;
-    height: 200%;
-}
-
-.submit-btn:hover {
-    transform: scale(1.05);
-}
-
-.back-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #666;
-    animation: fadeInUp 0.6s ease-out 0.8s forwards;
-    opacity: 0;
-}
-
-.link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 500;
-    position: relative;
-}
-
-.link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background: var(--primary-color);
-    transition: width 0.3s ease;
-}
-
-.link:hover::after {
-    width: 100%;
-}
-
-/* Success Popup */
-.success-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    background: var(--white-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    display: none;
-    z-index: 1000;
-}
-
-.success-popup.active {
+input.error + .error-message {
     display: block;
-    animation: popupBounceIn 0.6s ease-out forwards;
 }
 
-.popup-content {
+.btn {
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Progress bar */
+.progress-wrapper {
+    width: 100%;
+    max-width: 450px;
+    margin: 30px auto;
     text-align: center;
 }
 
-.popup-icon {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    background: #4caf50;
-    color: var(--white-color);
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.progress-bar .step {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    font-size: 2rem;
-    margin-bottom: 15px;
-    animation: iconSpin 1s ease;
+    background-color: #dfe6e9;
+    color: #636e72;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    z-index: 1;
+    transition: all 0.5s ease;
 }
 
-.success-popup p {
-    font-size: 1rem;
-    color: var(--text-color);
-    margin-bottom: 20px;
-}
-
-.popup-close {
-    padding: 8px 20px;
-    background: var(--primary-color);
-    color: var(--white-color);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.popup-close:hover {
-    background: #084c99;
+.progress-bar .step.active {
+    background-color: #3498db;
+    color: white;
     transform: scale(1.1);
 }
 
-/* Animations */
-@keyframes slideIn {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+.progress-bar .step.completed {
+    background-color: #27ae60;
+    color: white;
 }
 
-@keyframes floatImage {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+.progress-bar .line {
+    flex: 1;
+    height: 6px;
+    background-color: #dfe6e9;
+    margin: 0 5px;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes fadeInDown {
-    from { transform: translateY(-20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+.progress-bar .line.filled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #27ae60;
+    animation: fillLine 0.8s ease forwards;
 }
 
-@keyframes fadeInUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+@keyframes fillLine {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
 }
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #636e72;
 }
 
-@keyframes popupBounceIn {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    60% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+/* OTP Boxes */
+.otp-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 25px;
 }
 
-@keyframes popupFadeOut {
-    to { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+.otp-inputs input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-@keyframes iconSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.otp-inputs input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .form-wrapper { flex-direction: column; }
-    .image-section { height: 200px; }
-    .form-section { padding: 30px; }
-    .form-title { font-size: 1.5rem; }
-}
-
-@media (max-width: 480px) {
-    .form-section { padding: 20px; }
-    .form-title { font-size: 1.3rem; }
-    .form-subtitle { font-size: 0.85rem; }
-    .submit-btn { padding: 10px; }
+.otp-inputs input.error {
+    border-color: #e74c3c;
 }

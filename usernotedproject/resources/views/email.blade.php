@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Email/Password - xAI</title>
+    <title>Forgot Email/Password </title>
     <link rel="stylesheet" href="{{ asset('asset/css/email.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -20,7 +20,7 @@
             <div class="form-section">
                 <h1 class="form-title">Forgot Email or Password?</h1>
                 <p class="form-subtitle">Enter your email to reset your credentials.</p>
-                <form id="resetForm" class="reset-form">
+                <form id="resetForm" class="reset-form" method="POST" action="{{ route('send.reset.link') }}">
                     <div class="input-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" placeholder="you@example.com" required>
@@ -30,7 +30,7 @@
                     <button type="submit" class="submit-btn">Send Reset Link</button>
                 </form>
                 <p class="back-link">
-                    <a href="{{ route('login') }}" class="link">Back to Login</a>
+                    <a href="{{ route('logins') }}" class="link">Back to Login</a>
                 </p>
             </div>
         </div>

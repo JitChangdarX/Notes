@@ -29,24 +29,9 @@ class LoginController extends Controller
     $user = Signup::where('email', $request->email)->first();
 
     if (!$user) {
-        Log::warning('Login attempt with unregistered email: ' . $request->email);
-        return redirect('/signup')->withErrors(['email' => 'Please register first.']);
+        Log::error('User not found: ' . $request->email);
+        return back()->withErrors(['email' => 'Invalid email or password.']);
     }
-
-
-    if (!Hash::check($request->password, $user->password)) {
-        Log::warning('Password mismatch for user: ' . $request->email);
-        $passwordMatchesAnother = Signup::get()->filter(function ($u) use ($request) {
-            return Hash::check($request->password, $u->password);
-        })->isNotEmpty();
-
-        if ($passwordMatchesAnother) {
-            return back()->withErrors(['email' => 'Please enter correct email.']);
-        } else {
-            return back()->withErrors(['password' => 'Wrong password, please try again.']);
-        }
-    }
-
 
     if (!Hash::check($request->password, $user->password)) {
         Log::error('Password mismatch for user: ' . $request->email);

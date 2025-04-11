@@ -109,7 +109,8 @@
         <div class="profile-container">
             <div class="profile-header">
                 <img src="{{ asset($profilePhoto) }}" class="profile-image" alt="Profile">
-                <span class="profile-name">{{ $user->name }}</span>
+                <span class="profile-name">{{ Auth::user()->name }}</span>
+
                 <span class="dropdown-icon">▼</span>
             </div>
 
@@ -123,9 +124,13 @@
                     <i class="ri-delete-bin-5-line"></i>Delete Chat History
                 </div>
                 @php
-                    use Illuminate\Support\Facades\Crypt;
-                    $encryptedId = Crypt::encryptString($user->id);
-                @endphp
+                use Illuminate\Support\Facades\Crypt;
+                use Illuminate\Support\Facades\Auth;
+            
+                $authUser = Auth::user();
+                $encryptedId = $authUser ? Crypt::encryptString($authUser->id) : null;
+            @endphp
+            
 
                 <a href="{{ route('edit_profile', ['id' => $encryptedId]) }}" class="dropdown-item btn btn-primary">
                     <i class="ri-pencil-line"></i> Edit Profile

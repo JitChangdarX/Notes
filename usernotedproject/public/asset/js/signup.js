@@ -39,6 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById('myButton');
 
     form.addEventListener('submit', (e) => {
+        // Check validation before showing loader
+        if (!validateAndSubmitForm(e)) {
+            loader.style.display = 'none';
+            button.disabled = false;
+            return;
+        }
+
+        // Show loader only if validation passed
         loader.style.display = 'flex';
         button.disabled = true;
     });
@@ -81,3 +89,240 @@ function show() {
         setTimeout(() => consent.style.display = 'none', 500);
         console.log('Cookies declined');
     }
+
+
+          // Toggle password visibility
+          function togglePassword() {
+            const password = document.getElementById('password');
+            const confirm = document.getElementById('confirmpassword');
+            const type = password.type === 'password' ? 'text' : 'password';
+            password.type = confirm.type = type;
+        }
+    
+        // Password strength
+        function checkStrength() {
+            const password = document.getElementById('password').value;
+            const strengthResult = document.getElementById('strengthResult');
+            let strength = '';
+            let color = '';
+    
+            if (password.length === 0) {
+                strength = '';
+            } else if (password.length < 6) {
+                strength = 'Weak';
+                color = 'text-danger';
+            } else if (password.length < 10) {
+                strength = 'Medium';
+                color = 'text-warning';
+            } else {
+                strength = 'Strong';
+                color = 'text-success';
+            }
+    
+            strengthResult.textContent = strength ? `Strength: ${strength}` : '';
+            strengthResult.className = `mt-1 text-sm ${color}`;
+        }
+    
+       
+        function validateAndSubmitForm(event) {
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmpassword').value;
+        
+            if (password !== confirm || password.length < 6) {
+                event.preventDefault();
+                alert("Passwords must match and be at least 6 characters.");
+                return false;
+            }
+        
+            return true;
+        }
+        // Confetti animation
+        function triggerConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+    
+            const confetti = Array.from({ length: 100 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * -canvas.height,
+                size: Math.random() * 10 + 5,
+                speed: Math.random() * 5 + 2,
+                color: `hsl(${Math.random() * 360}, 100%, 50%)`
+            }));
+    
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach(c => {
+                    c.y += c.speed;
+                    if (c.y > canvas.height) c.y = -c.size;
+                    ctx.fillStyle = c.color;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+    
+                if (confetti.some(c => c.y < canvas.height)) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    canvas.style.display = 'none';
+                }
+            }
+    
+            animateConfetti();
+        }
+    
+        // Particle Background
+        const particleCanvas = document.getElementById('particleCanvas');
+        const pCtx = particleCanvas.getContext('2d');
+        particleCanvas.width = window.innerWidth;
+        particleCanvas.height = window.innerHeight;
+    
+        const particles = Array.from({ length: 50 }, () => ({
+            x: Math.random() * particleCanvas.width,
+            y: Math.random() * particleCanvas.height,
+            radius: Math.random() * 3 + 1,
+            dx: Math.random() * 2 - 1,
+            dy: Math.random() * 2 - 1,
+            color: `hsl(${Math.random() * 360}, 70%, 60%)`
+        }));
+    
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+    
+        function animateParticles() {
+            pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            particles.forEach(p => {
+                p.x += p.dx;
+                p.y += p.dy;
+    
+                if (p.x < 0 || p.x > particleCanvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > particleCanvas.height) p.dy *= -1;
+    
+                if (mouse.x && mouse.y) {
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        pCtx.beginPath();
+                        pCtx.strokeStyle = p.color;
+                        pCtx.lineWidth = 0.5;
+                        pCtx.moveTo(p.x, p.y);
+                        pCtx.lineTo(mouse.x, mouse.y);
+                        pCtx.stroke();
+                    }
+                }
+    
+                pCtx.beginPath();
+                pCtx.fillStyle = p.color;
+                pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                pCtx.fill();
+            });
+    
+            requestAnimationFrame(animateParticles);
+        }
+    
+        animateParticles();
+    
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+        });
+
+
+
+
+        const dropArea = document.getElementById('drop-area');
+        const preview = document.getElementById('preview');
+      
+        // Handle file selection from input
+        function handleFiles(files) {
+          Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                addPreview(e.target.result, file.name);
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+        }
+      
+        // Handle drag-and-drop
+        dropArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
+        });
+      
+        dropArea.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
+        });
+      
+        dropArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
+          handleFiles(e.dataTransfer.files);
+        });
+      
+        // Add image to preview with animation and remove button
+        function addPreview(src, name) {
+          const div = document.createElement('div');
+          div.className = 'preview-item w-full max-w-xs'; // Fixed width for better alignment
+          
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = name;
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.innerHTML = '×';
+          removeBtn.className = 'remove-btn';
+          removeBtn.onclick = (e) => {
+            e.preventDefault();
+            div.remove();
+          };
+          
+          const nameP = document.createElement('p');
+          nameP.textContent = name;
+          
+          div.appendChild(img);
+          div.appendChild(removeBtn);
+          div.appendChild(nameP);
+          preview.appendChild(div);
+        }
+
+
+        function validateEmail() {
+            const emailInput = document.getElementById("email");
+            const emailError = document.getElementById("emailError");
+            const signupBtn = document.getElementById("signup-btn");
+            const email = emailInput.value.trim(); // Remove leading/trailing whitespace
+        
+            // Clear previous error message
+            emailError.innerHTML = "";
+        
+            // Check if email is empty
+            if (!email) {
+                emailError.innerHTML = "Email is required";
+                signupBtn.disabled = true;
+                return; // Exit early to avoid unnecessary regex check
+            }
+        
+            // Improved email regex (more precise and standard-compliant)
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
+        
+            // Test email format
+            if (emailRegex.test(email)) {
+                emailError.innerHTML = ""; // Clear error message
+                signupBtn.disabled = false;
+            } else {
+                emailError.innerHTML = "Please enter a valid email address";
+                signupBtn.disabled = true;
+            }
+        }
+        

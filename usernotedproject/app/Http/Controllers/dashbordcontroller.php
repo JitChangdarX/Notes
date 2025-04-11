@@ -17,7 +17,7 @@ class DashbordController extends Controller
         }
     
         if (!$user_id) {
-            return redirect()->route('login')->with('error', 'Unauthorized access');
+            return redirect()->route('logins')->with('error', 'Unauthorized access');
         }
     
         $user = DB::table('signup_account')->where('id', $user_id)->first();

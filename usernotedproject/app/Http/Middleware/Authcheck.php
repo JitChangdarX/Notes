@@ -12,7 +12,7 @@ class AuthCheck
     public function handle(Request $request, Closure $next)
     {
         if (!Session::has('user_id')) { // ✅ Use session instead of Auth::check()
-            return redirect()->route('login')->with('error', 'Please login first.');
+            return redirect()->route('logins')->with('error', 'Please login first.');
         }
 
         return $next($request);

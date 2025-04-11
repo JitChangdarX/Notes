@@ -69,7 +69,7 @@ class GoogleController extends Controller
 
         } catch (\Exception $e) {
             Log::error('❌ Google Sign-In Error: ' . $e->getMessage());
-            return redirect('/login')->with('error', 'Google Sign-In failed.');
+            return redirect('/logins')->with('error', 'Google Sign-In failed.');
         }
     }
 
@@ -77,6 +77,6 @@ class GoogleController extends Controller
     {
         Auth::logout();
         Session::flush();
-        return redirect('/login')->with('success', 'You have been logged out.');
+        return redirect('/logins')->with('success', 'You have been logged out.');
     }
 }

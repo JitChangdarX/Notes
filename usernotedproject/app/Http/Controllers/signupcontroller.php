@@ -56,6 +56,6 @@ class SignupController extends Controller
         $signup->remember_token = Str::random(60);
         $signup->save();
 
-        return redirect()->route('login')->with('success', 'Signup successful! You can now log in.');
+        return redirect()->route('logins')->with('success', 'Signup successful! You can now log in.');
     }
 }
