@@ -29,6 +29,6 @@ class LogoutController extends Controller
         Session::flush();
         Session::regenerate();
 
-        return redirect('/logins')->with('success', 'Logged out successfully.');
+        return redirect()->route('logins')->with('success', 'Logged out successfully.');
     }
 }

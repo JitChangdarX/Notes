@@ -31,12 +31,12 @@
     <div class="container">
         <h2>Forgot Email / OTP Verification / Password Reset</h2>
 
-        <!-- Success Message -->
+        {{-- Success Message --}}
         @if (session('success'))
             <div class="message success">{{ session('success') }}</div>
         @endif
 
-        <!-- Error Message -->
+        {{-- Error Message --}}
         @if ($errors->any())
             <div class="message error">
                 @foreach ($errors->all() as $error)
@@ -44,11 +44,8 @@
                 @endforeach
             </div>
         @endif
-        @if (session('error'))
-            <div class="message error">{{ session('error') }}</div>
-        @endif
 
-        <!-- STEP 1: Email Input -->
+        {{-- STEP 1: Email Input --}}
         <div id="email-form" class="form-section {{ !session('otp_sent') ? 'active' : '' }}">
             <form method="POST" action="{{ route('otp.send') }}" onsubmit="return validateEmailForm(event)">
                 @csrf
@@ -62,7 +59,7 @@
             </form>
         </div>
 
-        <!-- STEP 2: OTP Input -->
+        {{-- STEP 2: OTP Input --}}
         <div id="otp-form" class="form-section {{ session('otp_sent') && !session('otp_verified') ? 'active' : '' }}">
             <form method="POST" action="{{ route('otp.verify') }}" onsubmit="return validateOtpForm(event)">
                 @csrf
@@ -83,8 +80,8 @@
                 <button type="button" class="btn resend-btn" onclick="resendOtp()">Resend OTP</button>
             </form>
         </div>
-
-        <!-- STEP 3: Password Reset Form -->
+        
+        {{-- STEP 3: Password Reset Form --}}
         <div id="password-form" class="form-section {{ session('otp_verified') ? 'active' : '' }}">
             <form method="POST" action="{{ route('password.update') }}" onsubmit="return validatePasswordForm(event)">
                 @csrf
@@ -95,8 +92,7 @@
                 </div>
                 <div class="input-group">
                     <label for="new_password_confirmation">Confirm New Password</label>
-                    <input type="password" id="new_password_confirmation" name="new_password_confirmation"
-                        placeholder="Confirm new password">
+                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" placeholder="Confirm new password">
                     <div class="error-message">Passwords do not match</div>
                     <input type="hidden" name="email" value="{{ session('email') }}">
                 </div>

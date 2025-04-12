@@ -15,6 +15,7 @@ class LoginController extends Controller
 {
     public function login()
     {
+        Log::info('Login page accessed. Session success: ' . session('success', 'none'));
         return view('login');
     }
 

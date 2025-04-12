@@ -165,7 +165,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            © {{ date('Y') }} YourApp. All rights reserved.<br>
+            © {{ date('Y') }} jit. All rights reserved.<br>
             <a href="https://yourdomain.com">Visit our website</a> |
             <a href="https://yourdomain.com/privacy">Privacy Policy</a> |
             <a href="https://yourdomain.com/terms">Terms of Service</a>

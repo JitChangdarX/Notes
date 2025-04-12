@@ -52,11 +52,11 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::get('/forgot', [OTPController::class, 'showEmailForm'])->name('otp.email.form');
-Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('otp.send');
-Route::get('/verify-otp', [OTPController::class, 'showOtpForm'])->name('otp.form');
-Route::post('/verify-otp', [OTPController::class, 'verifyOtp'])->name('otp.verify');
 
+Route::get('/forgot', [OTPController::class, 'showForm'])->name('otp.form');
+Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('otp.send');
+Route::post('/verify-otp', [OTPController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/reset-password', [OTPController::class, 'updatePassword'])->name('password.update');
 
 
 Route::controller(logoutController::class)->group(function () {
