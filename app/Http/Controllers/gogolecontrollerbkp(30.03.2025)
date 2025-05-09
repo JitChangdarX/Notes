@@ -1,0 +1,83 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+
+class GoogleController extends Controller
+{
+    
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+   
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+
+            Log::info('Google User Data', [
+                'name'      => $googleUser->getName(),
+                'email'     => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+                'avatar'    => $googleUser->getAvatar(),
+            ]);
+            // dd($googleUser);
+         
+            $user = User::where('email', $googleUser->getEmail())->first();
+
+            if (!$user) {
+                
+                $user = User::create([
+                    'name'      => $googleUser->getName(),
+                    'email'     => $googleUser->getEmail(),
+                    'google_id' => $googleUser->getId(),
+                    'password'  => bcrypt(uniqid()), 
+                    'avatar'    => $googleUser->getAvatar(),
+                ]);
+
+                Log::info('✅ New Google user created.');
+            } else {
+               
+                if (!$user->avatar) {
+                    $user->update(['avatar' => $googleUser->getAvatar()]);
+                }
+
+               
+                if (!$user->google_id) {
+                    $user->update(['google_id' => $googleUser->getId()]);
+                }
+
+                Log::info('✅ Existing Google user logged in.');
+            }
+
+            
+            Auth::login($user);
+
+         
+            $encryptedId = encrypt($user->id);
+            return redirect()->route('dashboard', ['encryptedId' => $encryptedId])
+                             ->with('success', 'Logged in successfully with Google.');
+
+        } catch (\Exception $e) {
+            Log::error('❌ Google Sign-In Error: ' . $e->getMessage());
+            return redirect('/signup')->with('error', 'Google Sign-In failed.');
+        }
+    }
+
+   
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/')->with('success', 'You have been logged out.');
+    }
+
+
+
+}

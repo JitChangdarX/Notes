@@ -1,0 +1,279 @@
+body {
+    margin: 0;
+    background: #1a2a44;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(#fff 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.2;
+    animation: twinkle 6s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+}
+
+.yarn-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.yarn-ball {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    animation: float 5s infinite ease-in-out;
+}
+
+.yarn-ball.red { background: #ff4d4d; left: 20%; top: 20%; animation-delay: 0s; }
+.yarn-ball.blue { background: #4d94ff; left: 60%; top: 40%; animation-delay: 1s; }
+.yarn-ball.green { background: #4dff4d; left: 40%; top: 60%; animation-delay: 2s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+}
+
+.yarn-trail {
+    position: absolute;
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #4d94ff, transparent);
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    animation: wave 3s infinite ease-in-out;
+}
+
+@keyframes wave {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-5deg); }
+    50% { transform: translate(-50%, -50%) rotate(5deg); }
+}
+
+.cat-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.cat {
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+
+.cat-body {
+    width: 100%;
+    height: 80%;
+    background: #2a2a2a;
+    border-radius: 50% 50% 20% 20%;
+    position: absolute;
+    bottom: 0;
+}
+
+.cat-head {
+    width: 60%;
+    height: 60%;
+    background: #2a2a2a;
+    border-radius: 50%;
+    position: absolute;
+    top: -20%;
+    left: 20%;
+    animation: nod 2s infinite ease-in-out;
+}
+
+.eye.left,
+.eye.right {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 30%;
+    box-shadow: 0 0 5px #fff;
+}
+
+.eye.left { left: 25%; }
+.eye.right { right: 25%; animation: blink 4s infinite; }
+
+@keyframes blink {
+    0%, 90%, 100% { height: 10px; }
+    92% { height: 2px; }
+}
+
+.nose {
+    width: 5px;
+    height: 5px;
+    background: #ff4d4d;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.whisker.left {
+    width: 30px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    top: 55%;
+    left: 10%;
+    transform: rotate(-20deg);
+}
+
+.whisker.right {
+    width: 30px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    top: 55%;
+    right: 10%;
+    transform: rotate(20deg);
+}
+
+.bell {
+    width: 10px;
+    height: 10px;
+    background: #ffd700;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: ring 1.5s infinite;
+}
+
+.paw.left,
+.paw.right {
+    width: 20px;
+    height: 20px;
+    background: #2a2a2a;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+}
+
+.paw.left { left: 20%; animation: pawMove 2s infinite ease-in-out; }
+.paw.right { right: 20%; animation: pawMove 2s infinite ease-in-out 0.5s; }
+
+.tail {
+    width: 60px;
+    height: 10px;
+    background: #2a2a2a;
+    position: absolute;
+    top: 20%;
+    right: -40px;
+    border-radius: 5px;
+    transform-origin: left;
+    animation: tailWag 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-15px); }
+}
+
+@keyframes nod {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes pawMove {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes tailWag {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(30deg); }
+}
+
+@keyframes ring {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.1); }
+}
+
+.number {
+    position: absolute;
+    font-size: 15rem;
+    color: #4d94ff;
+    line-height: 1;
+    text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.content {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 6rem;
+    color: #4d94ff;
+    margin: 0;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+p {
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 10px 0;
+}
+
+.home-button {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.home-button:hover {
+    background-color: #ff6b6b;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.home-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
